@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "node index.js && npm start",
-    "dev": "nodemon ./adapters/driver/api/program.ts",
-    "start": "ts-node ./adapters/driver/api/program.ts"
+    "dev": "nodemon ./adapters/driver/api/program.ts"
   },
   "author": "",
   "license": "ISC",
@@ -26,6 +25,7 @@
     "@types/cors": "^2.8.15",
     "@types/express": "^4.17.19",
     "@types/node": "^20.8.6",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
   }
 }
