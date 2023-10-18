@@ -14,15 +14,15 @@ export class Client {
     this.CPF = new CPF(cpf);
   }
 
-  getName(): string {
+  public getName(): string {
     return this.Name.getName();
   }
 
-  getEmail(): string {
+  public getEmail(): string {
     return this.Email.getEmail();
   }
 
-  getCPF(): string {
+  public getCPF(): string {
     return this.CPF.getCPF();
   }
 }

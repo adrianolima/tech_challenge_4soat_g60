@@ -1,5 +1,5 @@
-import { Client } from "../entities/client";
-import { Product } from "../entities/product";
+import { Client } from "./client";
+import { Product } from "./product";
 import { Money } from "../valueObjects/money";
 import { OrderStatus } from "../valueObjects/orderStatus";
 
@@ -18,7 +18,13 @@ export class Order {
     this.calculateTotalValue();
   }
 
-  calculateTotalValue(): void {
+  public addNewProduct(product: Product): void {
+    this.products.push(product);
+
+    this.calculateTotalValue();
+  }
+
+  public calculateTotalValue(): void {
     let calcValueTotal: number = 0;
 
     for (let product of this.products) {

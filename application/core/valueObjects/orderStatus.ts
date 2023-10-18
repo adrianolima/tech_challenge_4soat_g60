@@ -13,7 +13,7 @@ export class OrderStatus {
       status !== OrderStatus.PRONTO &&
       status !== OrderStatus.FINALIZADO
     ) {
-      validate("Status inválido");
+      validate("Status de pedido inválido");
     }
 
     this.status = status;
