@@ -14,6 +14,9 @@ ENV PATH /var/www/node_modules/.bin:$PATH
 
 ADD application /var/www
 
+RUN npm run prisma generate
+RUN tsc
+
 ADD docker/bin /var/bin
 
 RUN chown -R 1000:1000 /var/www

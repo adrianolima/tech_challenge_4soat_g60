@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "node index.js && npm start",
-    "dev": "nodemon ./adapters/driver/api/program.ts"
+    "server": "node dist/adapters/driver/api/program.js",
+    "dev": "nodemon ./adapters/driver/api/program.ts",
+    "prinsma-migrate": "npx prisma migrate dev --name init",
+    "prinsma-gen": "npx prisma generate"
   },
   "author": "",
   "license": "ISC",
