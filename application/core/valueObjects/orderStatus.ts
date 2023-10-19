@@ -1,17 +1,25 @@
 export class OrderStatus {
+  static CRIADO = "Criado"; // Pedido criado mas não associado a nenhum cliente
+  static CANCELADO = "Cancelado"; // Cliente desistiu do pagamento
+  static AGUARDANDO_PAGAMENTO = "Aguardando Pagamento"; // Cliente se autenticou (fez cadastro)
+  static AGUARDANDO_PREPARO = "Aguardando Preparo"; // Cliente realizou o pagamento
   static EM_PREPARACAO = "Em preparação";
   static PRONTO = "Pronto";
-  static RECEBIDO = "Recebido";
-  static FINALIZADO = "Finalizado";
+  static ENTREGUE = "Entregue";
 
   private status: string;
 
   constructor(status: string) {
     if (
-      status !== OrderStatus.EM_PREPARACAO &&
-      status !== OrderStatus.FINALIZADO &&
-      status !== OrderStatus.PRONTO &&
-      status !== OrderStatus.FINALIZADO
+      ![
+        OrderStatus.CRIADO,
+        OrderStatus.CANCELADO,
+        OrderStatus.AGUARDANDO_PAGAMENTO,
+        OrderStatus.AGUARDANDO_PREPARO,
+        OrderStatus.EM_PREPARACAO,
+        OrderStatus.PRONTO,
+        OrderStatus.ENTREGUE,
+      ].includes(status)
     ) {
       validate("Status de pedido inválido");
     }

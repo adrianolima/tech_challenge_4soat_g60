@@ -7,6 +7,8 @@ export class Product {
   private description: string;
   private category: Category;
   private value: Money;
+  private active: boolean;
+  private deletedAt: Date;
 
   construtor(
     name: string,
