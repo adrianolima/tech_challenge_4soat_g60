@@ -4,7 +4,7 @@ import { Money } from "../valueObjects/money";
 import { OrderStatus } from "../valueObjects/orderStatus";
 
 export class Order {
-  private Id: number;
+  private id: number;
   private products: Array<Product>;
   private client: Client;
   private valueTotal: Money;

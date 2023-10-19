@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { inject, injectable } from "tsyringe";
 import { IClientRepository } from "../ports/IClientRepository";
 import { CPF } from "../valueObjects/cpf";
