@@ -6,7 +6,8 @@
     "incremental": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "typeRoots": ["../node_modules/@types"]
+    "typeRoots": ["../node_modules/@types"],
+    "types": ["node", "reflect-metadata"]
   },
   "include": ["**/*.ts", "*.ts"],
   "exclude": ["node_modules"],
