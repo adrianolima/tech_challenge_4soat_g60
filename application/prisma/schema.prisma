@@ -11,10 +11,21 @@ datasource db {
 }
 
 model Client {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name String 
-  cpf String 
+  id    Int    @id @default(autoincrement())
+  email String @unique
+  name  String
+  cpf   String
 }
 
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  category    String
+  price       Decimal
+  active      Boolean @default(true)
+  created_at  DateTime? @default(now())
+  updated_at  DateTime? @updatedAt 
 
+  @@map("products")
+}

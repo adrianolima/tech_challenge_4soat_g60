@@ -7,6 +7,7 @@ export class Category {
   private category: string;
 
   constructor(category: string) {
+
     if (
       category !== Category.LANCHE &&
       category !== Category.ACOMPANHAMENTO &&

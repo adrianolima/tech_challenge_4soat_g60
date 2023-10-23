@@ -4,7 +4,8 @@ import { Category } from "../valueObjects/category";
 export interface IProductRepository {
   getProductsByCategory(category: Category): Promise<Array<Product>>;
   getProducts(): Promise<Array<Product>>;
-  saveProduct(product: Product): Promise<string>;
-  updateProduct(product: Product): Promise<string>;
-  deleteProduct(product: Product): Promise<string>;
+  saveProduct(product: Product): Promise<Product>;
+  updateProduct(product: Product): Promise<Product>;
+  deleteProduct(product: Product): Promise<Product>;
 }
+ 
