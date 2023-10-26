@@ -26,15 +26,42 @@ export class ProductRepository implements IProductRepository {
     }
 
     async saveProduct(product: Product): Promise<Product> {
-        throw new Error("Method not implemented.");
+        const save: any = await prisma.product.create({
+            data: {
+              name: product.getName(),
+              price: product.getValueProduct(),
+              description: product.getDescription(),
+              category: product.getCategory()
+            },
+          });
+      
+          return save;
     }
 
-    updateProduct(product: Product): Promise<Product> {
-        throw new Error("Method not implemented.");
+    async updateProduct(product: Product): Promise<Product> {
+        const update: any = await prisma.product.update({
+            data: {
+              name: product.getName(),
+              price: product.getValueProduct(),
+              description: product.getDescription(),
+              category: product.getCategory(),
+            },
+            where: {
+                id: product.getId()
+            }
+          });
+      
+          return update;
     }
 
-    deleteProduct(product: Product): Promise<Product> {
-        throw new Error("Method not implemented.");
+    async deleteProduct(id: number): Promise<any> {
+        const deleteProduct = await prisma.product.delete({
+            where: {
+              id,
+            },
+          })
+
+          return deleteProduct
     }
 
 }

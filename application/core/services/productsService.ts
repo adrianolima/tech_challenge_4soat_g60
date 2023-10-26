@@ -15,7 +15,19 @@ export class ProductsService {
     return await this._productRepository.getProducts();
   }
 
-  async listByCategory(category : Category): Promise<Array<Product>> {
+  async listByCategory(category: Category): Promise<Array<Product>> {
     return await this._productRepository.getProductsByCategory(category);
+  }
+
+  async save(product: Product): Promise<Product> {
+    return await this._productRepository.saveProduct(product);
+  }
+
+  async update(product: Product): Promise<Product> {
+    return await this._productRepository.updateProduct(product);
+  }
+
+  async delete(id: number): Promise<Product> {
+    return await this._productRepository.deleteProduct(id);
   }
 }

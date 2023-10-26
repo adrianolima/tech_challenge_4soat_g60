@@ -16,13 +16,6 @@ client.connect().then(() => {
 });
 
 app.get('/', function (req, res) {
-    client.query('SELECT * FROM clientes', (err, result) => {
-        if (err) {
-            console.error('Error executing query:', err);
-        } else {
-            res.json(result.rows)
-        }
-    });
 
 })
 

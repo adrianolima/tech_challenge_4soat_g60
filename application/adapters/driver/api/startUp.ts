@@ -13,6 +13,7 @@ import "../../driven/infra/ioc/container";
 import { Category } from "../../../core/valueObjects/category";
 import { CPF } from "../../../core/valueObjects/cpf";
 import { Client } from "../../../core/entities/client";
+import { Product } from "../../../core/entities/product";
 
 class StartUp {
   public app: express.Application;
@@ -90,7 +91,52 @@ class StartUp {
       res.send({ products: await this.productService.list() });
     });
 
-    this.app.route("/api/products/:category").get(async (req, res, next) => {
+    this.app.route("/api/products").post(async (req, res) => {
+      try {
+        const { name, category, description, price } = req.body;
+
+        const product = new Product( name, category, description, price);
+
+        res.send({
+          product: await this.productService.save(product),
+        });
+      } catch (e) {
+        res.send({
+          error: e.message,
+        });
+      }
+    });
+    this.app.route("/api/products/:id").put(async (req, res) => {
+      try {
+        const { name, category, description, price } = req.body;
+
+        const product = new Product( name, category, description, price);
+        product.setId(+req.params.id)
+
+        res.send({
+          product: await this.productService.update(product),
+        });
+
+      } catch (e) {
+        res.send({
+          error: e.message,
+        });
+      }
+    });
+
+    this.app.route("/api/products/:id").delete(async (req, res) => {
+      try {
+        res.send({
+          product: await this.productService.delete(+req.params.id),
+        });
+      } catch (e) {
+        res.send({
+          error: e.message,
+        });
+      }
+    });
+
+    this.app.route("/api/products/:category").get(async (req, res) => {
       try {
         const category = new Category(
           req.params.category.charAt(0).toUpperCase() +
@@ -100,9 +146,12 @@ class StartUp {
           products: await this.productService.listByCategory(category),
         });
       } catch (e) {
-        next(e);
+        res.send({
+          error: e.message,
+        });
       }
     });
+  
   }
 }
 

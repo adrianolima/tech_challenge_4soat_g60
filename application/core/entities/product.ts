@@ -11,21 +11,43 @@ export class Product {
   private created_at: Date;
   private updated_at: Date;
 
-  construtor(
+
+  constructor(
     name: string,
     category: string,
     description: string,
-    price: Money
+    price: number
   ) {
     this.name = name;
     this.category = new Category(category);
     this.description = description;
-    this.price = this.price;
+    this.price = new Money(price);
   }
 
   public getValueProduct(): number {
     return this.price.getValueMoney();
   }
+
+  public getName(): string {
+    return this.name;
+  }
+
+  public getDescription(): string {
+    return this.description;
+  }
+
+  public getCategory(): string {
+    return this.category.getCategory();
+  }
+
+  public setId(id: number) {
+    this.id = id;
+  }
+
+  public getId(): number {
+    return this.id;
+  }
+
 }
 
 
