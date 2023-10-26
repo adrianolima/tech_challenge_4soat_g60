@@ -2,7 +2,7 @@ import { Client } from "./client";
 import { Product } from "./product";
 import { Money } from "../valueObjects/money";
 import { OrderStatus } from "../valueObjects/orderStatus";
-import {OrderItem} from "./orderItem";
+import { OrderItem } from "./orderItem";
 
 export class Order {
   private Id: number;

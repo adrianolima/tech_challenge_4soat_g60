@@ -7,7 +7,13 @@ const prisma = new PrismaClient();
 
 export class ClientRepository implements IClientRepository {
   async getClient(cpf: CPF): Promise<Client> {
-    throw new Error("Method not implemented.");
+    const client: any = await prisma.client.findUnique({
+      where: {
+        cpf: cpf.getCPF(),
+      },
+    });
+
+    return client;
   }
 
   async getClients(): Promise<Client[]> {
@@ -17,6 +23,14 @@ export class ClientRepository implements IClientRepository {
   }
 
   async save(client: Client): Promise<string> {
-    throw new Error("Method not implemented.");
+    await prisma.client.create({
+      data: {
+        name: client.getName(),
+        email: client.getEmail(),
+        cpf: client.getCPF(),
+      },
+    });
+
+    return "Cliente cadastrado com sucesso!";
   }
 }

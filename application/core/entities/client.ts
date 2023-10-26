@@ -6,12 +6,12 @@ export class Client {
   private id: number;
   private name: Name;
   private email: Email;
-  private CPF: CPF;
+  private cpf: CPF;
 
   constructor(name: string, email: string, cpf: string) {
     this.name = new Name(name);
     this.email = new Email(email);
-    this.CPF = new CPF(cpf);
+    this.cpf = new CPF(cpf);
   }
 
   public getName(): string {
@@ -23,6 +23,6 @@ export class Client {
   }
 
   public getCPF(): string {
-    return this.CPF.getCPF();
+    return this.cpf.getCPF();
   }
 }

@@ -9,7 +9,6 @@ container.register("IClientRepository", {
   useClass: ClientRepository,
 });
 
-
 container.register("ClientService", {
   useClass: ClientService,
 });
@@ -21,4 +20,3 @@ container.register("IProductRepository", {
 container.register("ProductsService", {
   useClass: ProductsService,
 });
-
