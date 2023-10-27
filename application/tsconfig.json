@@ -6,8 +6,14 @@
     "incremental": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "plugins": [
+      {
+        "transform": "ts-auto-mock/transformer",
+        "cacheBetweenTests": false
+      }
+    ],
     "typeRoots": ["../node_modules/@types"],
-    "types": ["node", "reflect-metadata"]
+    "types": ["node", "reflect-metadata", "jest"]
   },
   "include": ["**/*.ts", "*.ts"],
   "exclude": ["node_modules"],

@@ -4,14 +4,31 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "server": "node dist/adapters/driver/api/program.js",
     "dev": "nodemon ./adapters/driver/api/program.ts",
     "prinsma-migrate": "npx prisma migrate dev --name init",
-    "prinsma-gen": "npx prisma generate"
+    "prinsma-gen": "npx prisma generate",
+    "test": "jest --watch",
+    "test:runInBand": "jest -i",
+    "clearCache": "jest --clearCache"
   },
   "author": "",
   "license": "ISC",
+  "jest": {
+    "setupFiles": [
+      "<rootDir>config.ts"
+    ],
+    "transform": {
+      ".(ts|tsx)": "ts-jest"
+    },
+    "testRegex": "(/src/.*|\\.(test))\\.(ts|tsx)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ]
+  },
   "dependencies": {
     "@prisma/client": "^5.4.2",
     "body-parser": "^1.20.2",
@@ -23,6 +40,7 @@
     "reflect-metadata": "^0.1.13",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
+    "ts-mockito": "^2.6.1",
     "tsyringe": "^4.8.0"
   },
   "devDependencies": {
@@ -30,11 +48,17 @@
     "@types/compression": "^1.7.4",
     "@types/cors": "^2.8.15",
     "@types/express": "^4.17.19",
+    "@types/jest": "^29.5.6",
     "@types/node": "^20.8.6",
     "@types/swagger-jsdoc": "^6.0.2",
     "@types/swagger-ui-express": "^4.1.5",
+    "jest": "^29.7.0",
+    "jest-ts-auto-mock": "^2.1.0",
     "prisma": "^5.4.2",
+    "ts-auto-mock": "^3.7.1",
+    "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
+    "ttypescript": "^1.5.15",
     "typescript": "^5.2.2"
   }
 }
