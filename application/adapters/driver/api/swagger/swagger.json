@@ -13,7 +13,7 @@
     }
   },
   "schemes": ["http"],
-  "host": "localhost:80",
+  "host": "localhost:3000",
   "basePath": "/api",
   "paths": {
     "/clients": {
@@ -113,6 +113,174 @@
           }
         }
       }
+    },
+    "/products/": {
+      "post": {
+        "tags": ["Produto"],
+        "summary": "Cadastrar um produto",
+        "description": "Cadastrar um produto",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Dados do produto",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/Product"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ProductResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Produto"],
+        "summary": "Listar os produtos",
+        "description": "Listar os produtos",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ProductResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
+    },
+    "/products/{id}": {
+      "put": {
+        "tags": ["Produto"],
+        "summary": "Editar um produto",
+        "description": "Editar um produto",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do produto",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Dados do produto",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/Product"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ProductResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Produto"],
+        "summary": "Pegar um produto pelo id",
+        "description": "Pegar um produto pelo id",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do produto",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ProductResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Produto"],
+        "summary": "Deletar um produto",
+        "description": "Deletar um produto",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do produto",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ProductResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -143,6 +311,76 @@
           "type": "string"
         },
         "cpf": {
+          "type": "string"
+        }
+      }
+    },
+    "Product": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["Lanche", "Acompanhamento", "Bebida", "Sobremesa"]
+        },
+        "price": {
+          "type": "number"
+        }
+      }
+    },
+    "ProductResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    },
+    "ProductResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
           "type": "string"
         }
       }
