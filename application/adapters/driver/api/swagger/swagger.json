@@ -13,7 +13,7 @@
     }
   },
   "schemes": ["http"],
-  "host": "localhost:3000",
+  "host": "localhost:80",
   "basePath": "/api",
   "paths": {
     "/clients": {
@@ -217,10 +217,10 @@
           }
         }
       },
-      "get": {
+      "delete": {
         "tags": ["Produto"],
-        "summary": "Pegar um produto pelo id",
-        "description": "Pegar um produto pelo id",
+        "summary": "Deletar um produto",
+        "description": "Deletar um produto",
         "produces": ["application/json"],
         "parameters": [
           {
@@ -248,19 +248,22 @@
             }
           }
         }
-      },
-      "delete": {
+      }
+    },
+    "/products/{category}": {
+      "get": {
         "tags": ["Produto"],
-        "summary": "Deletar um produto",
-        "description": "Deletar um produto",
+        "summary": "Listar produtos por categoria",
+        "description": "Listar produtos por categoria",
         "produces": ["application/json"],
         "parameters": [
           {
-            "name": "id",
+            "name": "category",
             "in": "path",
-            "description": "Id do produto",
+            "description": "categoria",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "enum": ["lanche", "acompanhamento", "bebida", "sobremesa"]
           }
         ],
         "responses": {
