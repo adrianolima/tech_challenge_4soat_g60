@@ -11,35 +11,66 @@ datasource db {
 }
 
 model Client {
-  id    Int    @id @default(autoincrement())
-  cpf   String @unique
-  email String @unique
-  name  String
-  created_at  DateTime? @default(now())
-  updated_at  DateTime? @updatedAt 
+  id     Int     @id @default(autoincrement())
+  cpf    String  @unique
+  email  String  @unique
+  name   String
+  orders Order[]
 
   @@map("clients")
 }
 
 model Product {
-  id          Int      @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   name        String
   description String
   category    String
   price       Decimal
-  active      Boolean @default(true)
-  created_at  DateTime? @default(now())
-  updated_at  DateTime? @updatedAt 
+  active      Boolean     @default(true)
+  created_at  DateTime?   @default(now())
+  updated_at  DateTime?   @updatedAt
+  OrderItem   OrderItem[]
 
   @@map("products")
 }
 
-model Payment {
-  id          Int      @id @default(autoincrement())
-  order_id       Int
-  status      String
-  created_at  DateTime? @default(now())
-  updated_at  DateTime? @updatedAt 
+model Order {
+  id         Int       @id @default(autoincrement())
+  client     Client    @relation(fields: [client_id], references: [id])
+  client_id  Int
+  payment_id Int
+  payment    Payment?  @relation(fields: [payment_id], references: [id])
+  status     String
+  total      Decimal
+  active     Boolean   @default(true)
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
 
-  @@map("payments")
+  @@map("orders")
+}
+
+model OrderItem {
+  id         Int     @id @default(autoincrement())
+  order_id   Int
+  product    Product @relation(fields: [product_id], references: [id])
+  product_id Int
+  quantity   Decimal
+  price      Decimal
+  total      Decimal
+
+  @@map("order_item")
+}
+
+model Payment {
+  id         Int       @id @default(autoincrement())
+  order_id   Int
+  qr_code    String
+  status     String
+  total      Decimal
+  paid_at    DateTime?
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+  orders     Order[]
+
+  @@map("payment")
 }

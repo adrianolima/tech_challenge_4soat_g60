@@ -3,7 +3,7 @@ var {Client} = require('pg');
 var app = express()
 
 client = new Client({
-    host: 'totem-postgres',
+    host: 'localhost',
     user: 'totem',
     password: 'totem',
     database: 'totem',

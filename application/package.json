@@ -6,8 +6,8 @@
   "scripts": {
     "server": "node dist/adapters/driver/api/program.js",
     "dev": "nodemon ./adapters/driver/api/program.ts",
-    "prinsma-migrate": "npx prisma migrate dev --name init",
-    "prinsma-gen": "npx prisma generate",
+    "prisma-migrate": "npx prisma migrate dev --name init",
+    "prisma-gen": "npx prisma generate",
     "test": "jest --watch",
     "test:runInBand": "jest -i",
     "clearCache": "jest --clearCache"

@@ -14,7 +14,7 @@ ENV PATH /var/www/node_modules/.bin:$PATH
 
 ADD application /var/www
 
-RUN npm run prisma generate
+RUN npm run prisma-gen
 RUN tsc
 
 ADD docker/bin /var/bin
