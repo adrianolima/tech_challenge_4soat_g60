@@ -13,7 +13,7 @@
     }
   },
   "schemes": ["http"],
-  "host": "localhost:80",
+  "host": "localhost:3000",
   "basePath": "/api",
   "paths": {
     "/clients": {
@@ -291,7 +291,22 @@
         "summary": "Post payment",
         "description": "Solicitação de pagamento",
         "produces": ["application/json"],
-        "parameters": [],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Dados do pagamento",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "order_id": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -317,7 +332,15 @@
         "summary": "Put payment",
         "description": "Realizar pagamento",
         "produces": ["application/json"],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id do pagamento",
+            "required": true,
+            "type": "number"
+          }
+        ],
         "responses": {
           "200": {
             "description": "successful operation",

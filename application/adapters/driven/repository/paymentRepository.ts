@@ -18,6 +18,12 @@ export class PaymentRepository implements IPaymentRepository {
   }
 
   async pay(id: number): Promise<string> {
+    const payment = await prisma.payment.findUnique({ where: { id: id } });
+
+    if (!payment) {
+      throw new Error("Pagamento não encontrado!");
+    }
+
     await prisma.payment.update({
       where: {
         id: id,

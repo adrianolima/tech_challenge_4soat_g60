@@ -172,8 +172,10 @@ class StartUp {
 
     this.app.route("/api/payments/:id/pay").put(async (req, res) => {
       try {
+        const payment = await this.paymentService.pay(Number(req.params.id));
+
         res.send({
-          payment: await this.paymentService.pay(Number(req.params.id)),
+          message: payment,
         });
       } catch (e) {
         res.send({
