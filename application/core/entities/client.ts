@@ -1,6 +1,6 @@
-import { CPF } from "../valueObjects/cpf";
-import { Email } from "../valueObjects/email";
-import { Name } from "../valueObjects/name";
+import {CPF} from "../valueObjects/cpf";
+import {Email} from "../valueObjects/email";
+import {Name} from "../valueObjects/name";
 
 export class Client {
   private id: number;
@@ -14,6 +14,12 @@ export class Client {
     this.cpf = new CPF(cpf);
   }
 
+  static New(id: number, name: string, email: string, cpf: string): Client {
+    const c = new Client(name, email, cpf)
+    c.id = id;
+    return c;
+  }
+
   public getName(): string {
     return this.name.getName();
   }
@@ -24,5 +30,9 @@ export class Client {
 
   public getCPF(): string {
     return this.cpf.getCPF();
+  }
+
+  getId() {
+    return this.id;
   }
 }

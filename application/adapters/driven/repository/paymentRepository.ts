@@ -1,33 +1,33 @@
 import {IPaymentRepository} from "../../../core/ports/IPaymentRepository";
 import {PaymentStatus} from "../../../core/valueObjects/paymentStatus";
 
-import {PrismaClient} from "@prisma/client";
+import {Prisma, PrismaClient} from "@prisma/client";
 import {Payment} from "../../../core/entities/payment";
 import RecordNotFoundError from "../../../core/errors/RecordNotFoundError";
 
 const prisma = new PrismaClient();
 
-type PaymentData = {
+export type PaymentData = {
   id: number
   order_id: number
   integration_id: string
   qr_code: string
-  total: number
-  status: PaymentStatus
+  total: Prisma.Decimal
+  status: string
   paid_at?: Date
   created_at?: Date
   updated_at?: Date
 }
 
-class Mapper {
+export class PaymentMapper {
   static map(input: PaymentData): Payment {
     return Payment.New(
       input.id,
       input.order_id,
       input.integration_id,
       input.qr_code,
-      input.total,
-      input.status,
+      input.total.toNumber(),
+      new PaymentStatus(input.status),
       input.paid_at,
       input.created_at,
       input.updated_at,
@@ -50,13 +50,7 @@ export class PaymentRepository implements IPaymentRepository {
       },
     });
 
-    const data: PaymentData = {
-      ...savedPayment,
-      status: new PaymentStatus(savedPayment.status),
-      total: savedPayment.total.toNumber(),
-    }
-
-    return Mapper.map(data)
+    return PaymentMapper.map(savedPayment)
   }
 
   async updateStatus(id: number, paymentStatus: PaymentStatus): Promise<Payment> {
@@ -76,13 +70,7 @@ export class PaymentRepository implements IPaymentRepository {
       },
     });
 
-    const data: PaymentData = {
-      ...updatedPayment,
-      status: new PaymentStatus(updatedPayment.status),
-      total: updatedPayment.total.toNumber(),
-    }
-
-    return Mapper.map(data);
+    return PaymentMapper.map(updatedPayment);
   }
 
   async getByIntegrationID(integrationID: string): Promise<Payment> {
@@ -92,12 +80,6 @@ export class PaymentRepository implements IPaymentRepository {
       throw new RecordNotFoundError("No payment found for the given integration ID")
     }
 
-    const data: PaymentData = {
-      ...payment,
-      status: new PaymentStatus(payment.status),
-      total: payment.total.toNumber(),
-    }
-
-    return Mapper.map(data);
+    return PaymentMapper.map(payment);
   }
 }

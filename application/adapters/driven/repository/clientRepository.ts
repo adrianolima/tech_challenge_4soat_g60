@@ -5,6 +5,26 @@ import {PrismaClient} from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+export type ClientData = {
+  id: number
+  cpf: string
+  email: string
+  name: string
+  created_at?: Date
+  updated_at?: Date
+}
+
+export class ClienteMapper {
+  static map(d: ClientData): Client {
+    return Client.New(
+      d.id,
+      d.name,
+      d.email,
+      d.cpf,
+    )
+  }
+}
+
 export class ClientRepository implements IClientRepository {
   async getClient(cpf: CPF): Promise<Client> {
     const client: any = await prisma.client.findUnique({

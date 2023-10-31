@@ -26,7 +26,7 @@ export class PaymentService {
         const {identifier, QRCode} = await this._paymentGateway.create()
 
 
-        const payment = new Payment(orderId, identifier, QRCode, order.getValueTotal().getValueMoney())
+        const payment = new Payment(orderId, identifier, QRCode, order.valueTotal.getValueMoney())
 
         const savedPayment = await this._paymentRepository.save(payment)
 

@@ -12,12 +12,28 @@ export class Order {
   private _payment?: Payment;
   private _valueTotal: Money;
   private _status: OrderStatus;
+  private _createdAt?: Date
+  private _updatedAt?: Date
 
   constructor(products: Array<OrderItem>) {
     this._items = products;
     this._status = OrderStatus.CRIADO;
 
     this.calculateTotalValue();
+  }
+
+
+  static New(id: number, items: Array<OrderItem>, client: Client, payment: Payment, valueTotal: number, status: string, createdAt?: Date, updatedAt?: Date): Order {
+    const o = new Order([])
+    o._id = id;
+    o._items = items;
+    o._client = client;
+    o._payment = payment;
+    o._valueTotal = new Money(valueTotal);
+    o._status = new OrderStatus(status);
+    o._createdAt = createdAt
+    o._updatedAt = updatedAt
+    return o;
   }
 
   public addProduct(product: Product): void {
@@ -44,11 +60,11 @@ export class Order {
     return this._items;
   }
 
-  get client(): Client {
+  get client(): Client | null {
     return this._client;
   }
 
-  get payment(): Payment {
+  get payment(): Payment | null {
     return this._payment;
   }
 
@@ -70,5 +86,13 @@ export class Order {
 
   setPayment(payment: Payment) {
     this._payment = payment
+  }
+
+  get createdAt(): Date {
+    return this._createdAt;
+  }
+
+  get updatedAt(): Date {
+    return this._updatedAt;
   }
 }
