@@ -1,7 +1,7 @@
-import { Client } from "../../../core/entities/client";
-import { IClientRepository } from "../../../core/ports/IClientRepository";
-import { CPF } from "../../../core/valueObjects/cpf";
-import { PrismaClient } from "@prisma/client";
+import {Client} from "../../../core/entities/client";
+import {IClientRepository} from "../../../core/ports/IClientRepository";
+import {CPF} from "../../../core/valueObjects/cpf";
+import {PrismaClient} from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -32,5 +32,15 @@ export class ClientRepository implements IClientRepository {
     });
 
     return "Cliente cadastrado com sucesso!";
+  }
+
+  async getClientByID(Id: number): Promise<Client | undefined> {
+    const cliente = prisma.client.findUnique({
+      where: {
+        id: Id,
+      },
+    });
+
+    return cliente as unknown as Client
   }
 }

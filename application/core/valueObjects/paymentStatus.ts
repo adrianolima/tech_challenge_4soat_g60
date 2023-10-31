@@ -19,8 +19,12 @@ export class PaymentStatus {
     this.status = status;
   }
 
-  public getStatus(): string {
+  public value(): string {
     return this.status;
+  }
+
+  isPaid() {
+    return this.status == PaymentStatus.PAGO;
   }
 }
 

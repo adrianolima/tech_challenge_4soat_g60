@@ -45,7 +45,7 @@ export default class OrderService {
   }
 
   private getOrderStatusByPayment(payment: Payment): OrderStatus {
-    switch (payment.getStatus().getStatus()) {
+    switch (payment.status.value()) {
       case PaymentStatus.PAGO:
         return OrderStatus.AGUARDANDO_PREPARO
       default:

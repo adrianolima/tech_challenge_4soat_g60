@@ -7,6 +7,7 @@ import { ProductRepository } from "../../repository/productRepository";
 import { ProductsService } from "../../../../core/services/productsService";
 import { PaymentRepository } from "../../repository/paymentRepository";
 import { PaymentService } from "../../../../core/services/paymentService";
+import MercadoPagoPaymentGateway from "../../gateway/mercadoPagoPaymentGateway";
 
 container.register("IClientRepository", {
   useClass: ClientRepository,
@@ -30,4 +31,8 @@ container.register("IPaymentRepository", {
 
 container.register("PaymentService", {
   useClass: PaymentService,
+});
+
+container.register("IPaymentGateway", {
+  useClass: MercadoPagoPaymentGateway,
 });

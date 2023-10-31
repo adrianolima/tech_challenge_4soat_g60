@@ -7,10 +7,11 @@ import "../../driven/infra/ioc/container";
 import IAppRoute from "./routes/IAppRoute";
 import OrderRoute from "./routes/OrderRoute";
 import ClientRoute from "./routes/ClientRoute";
-import swaggerUi = require("swagger-ui-express");
-import fs = require("fs");
 import ProductRoute from "./routes/ProductRoute";
 import OrderQueueRoute from "./routes/OrderQueueRoute";
+import PaymentRoute from "./routes/PaymentRoute";
+import swaggerUi = require("swagger-ui-express");
+import fs = require("fs");
 
 class StartUp {
   public app: express.Application;
@@ -26,6 +27,7 @@ class StartUp {
     new ClientRoute(),
     new ProductRoute(),
     new OrderQueueRoute(),
+    new PaymentRoute(),
   ]
 
   /* Swagger files end */

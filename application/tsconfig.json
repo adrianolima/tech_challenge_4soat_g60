@@ -12,6 +12,7 @@
         "cacheBetweenTests": false
       }
     ],
+    "types": ["reflect-metadata"],
     "typeRoots": ["../node_modules/@types"]
   },
   "include": ["**/*.ts", "*.ts"],

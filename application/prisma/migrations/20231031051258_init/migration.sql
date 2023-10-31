@@ -4,6 +4,8 @@ CREATE TABLE "clients" (
     "cpf" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3),
 
     CONSTRAINT "clients_pkey" PRIMARY KEY ("id")
 );
@@ -52,6 +54,7 @@ CREATE TABLE "order_item" (
 CREATE TABLE "payment" (
     "id" SERIAL NOT NULL,
     "order_id" INTEGER NOT NULL,
+    "integration_id" TEXT NOT NULL,
     "qr_code" TEXT NOT NULL,
     "status" TEXT NOT NULL,
     "total" DECIMAL(65,30) NOT NULL,

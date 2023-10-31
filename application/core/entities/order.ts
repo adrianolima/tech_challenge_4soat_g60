@@ -6,22 +6,22 @@ import {OrderItem} from "./orderItem";
 import {Payment} from "./payment";
 
 export class Order {
-  private Id: number;
-  private items: Array<OrderItem>;
-  private client?: Client;
-  private payment?: Payment;
-  private valueTotal: Money;
-  private status: OrderStatus;
+  private _id: number;
+  private _items: Array<OrderItem>;
+  private _client?: Client;
+  private _payment?: Payment;
+  private _valueTotal: Money;
+  private _status: OrderStatus;
 
   constructor(products: Array<OrderItem>) {
-    this.items = products;
-    this.status = OrderStatus.CRIADO;
+    this._items = products;
+    this._status = OrderStatus.CRIADO;
 
     this.calculateTotalValue();
   }
 
-  public addNewProduct(product: Product): void {
-    this.items.push(new OrderItem(product, 1));
+  public addProduct(product: Product): void {
+    this._items.push(new OrderItem(product, 1));
 
     this.calculateTotalValue();
   }
@@ -29,47 +29,46 @@ export class Order {
   public calculateTotalValue(): void {
     let calcValueTotal: number = 0.0;
 
-    for (let item of this.items) {
+    for (let item of this._items) {
       calcValueTotal += item.value;
     }
 
-    this.valueTotal = new Money(calcValueTotal);
+    this._valueTotal = new Money(calcValueTotal);
   }
 
-
-  getId(): number {
-    return this.Id;
+  get id(): number {
+    return this._id;
   }
 
-  getItems(): Array<OrderItem> {
-    return this.items;
+  get items(): Array<OrderItem> {
+    return this._items;
   }
 
-  getClient(): Client {
-    return this.client;
+  get client(): Client {
+    return this._client;
+  }
+
+  get payment(): Payment {
+    return this._payment;
+  }
+
+  get valueTotal(): Money {
+    return this._valueTotal;
+  }
+
+  get status(): OrderStatus {
+    return this._status;
   }
 
   setClient(client: Client): void {
-    this.client = client
-  }
-
-  getValueTotal(): Money {
-    return this.valueTotal;
-  }
-
-  getStatus(): OrderStatus {
-    return this.status;
-  }
-
-  getPayment(): Payment {
-    return this.payment;
+    this._client = client
   }
 
   setStatus(status: OrderStatus): void {
-    this.status = status
+    this._status = status
   }
 
   setPayment(payment: Payment) {
-    this.payment = payment
+    this._payment = payment
   }
 }

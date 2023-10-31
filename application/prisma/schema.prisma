@@ -11,11 +11,13 @@ datasource db {
 }
 
 model Client {
-  id     Int     @id @default(autoincrement())
-  cpf    String  @unique
-  email  String  @unique
-  name   String
-  orders Order[]
+  id         Int       @id @default(autoincrement())
+  cpf        String    @unique
+  email      String    @unique
+  name       String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
+  orders     Order[]
 
   @@map("clients")
 }
@@ -46,6 +48,8 @@ model Order {
   created_at DateTime? @default(now())
   updated_at DateTime? @updatedAt
 
+  items OrderItem[]
+
   @@map("orders")
 }
 
@@ -57,20 +61,23 @@ model OrderItem {
   quantity   Decimal
   price      Decimal
   total      Decimal
+  Order      Order?  @relation(fields: [orderId], references: [id])
+  orderId    Int?
 
   @@map("order_item")
 }
 
 model Payment {
-  id         Int       @id @default(autoincrement())
-  order_id   Int
-  qr_code    String
-  status     String
-  total      Decimal
-  paid_at    DateTime?
-  created_at DateTime? @default(now())
-  updated_at DateTime? @updatedAt
-  orders     Order[]
+  id             Int       @id @default(autoincrement())
+  order_id       Int
+  integration_id String
+  qr_code        String
+  status         String
+  total          Decimal
+  paid_at        DateTime?
+  created_at     DateTime? @default(now())
+  updated_at     DateTime? @updatedAt
+  orders         Order[]
 
   @@map("payment")
 }
