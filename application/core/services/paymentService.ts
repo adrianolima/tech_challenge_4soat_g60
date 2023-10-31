@@ -1,20 +1,18 @@
-class PaymentService {
-    
-    
-    create() {
-        // Cria o rgistro no banco de dados (repository)
-        // Associa com o pedido
-        // faz chamada ao MP
-        // Salva o QRcode no BD
-        
-    }
-    
-    process() {
-        
-        // Processa o retorno do MP (webhook)
-        // Atualiza o status do pedido para Pago/Não Pago (caso o mesmo esteja aguardando pagamento)
-        
-    }
-    
-    
+import { inject, injectable } from "tsyringe";
+
+import { IPaymentRepository } from "../ports/IPaymentRepository";
+
+@injectable()
+export class PaymentService implements IPaymentRepository {
+  constructor(
+    @inject("IPaymentRepository") private _clientRepository: IPaymentRepository
+  ) {}
+
+  async save(orderId: number): Promise<String> {
+    return await this._clientRepository.save(orderId);
+  }
+
+  async pay(id: number): Promise<string> {
+    return await this._clientRepository.pay(id);
+  }
 }

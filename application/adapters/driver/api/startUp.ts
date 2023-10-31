@@ -14,11 +14,14 @@ import { Category } from "../../../core/valueObjects/category";
 import { CPF } from "../../../core/valueObjects/cpf";
 import { Client } from "../../../core/entities/client";
 import { Product } from "../../../core/entities/product";
+import { Payment } from "../../../core/entities/payment";
+import { PaymentService } from "../../../core/services/paymentService";
 
 class StartUp {
   public app: express.Application;
   private clientService = container.resolve(ClientService);
   private productService = container.resolve(ProductsService);
+  private paymentService = container.resolve(PaymentService);
 
   /* Swagger files start */
   private swaggerFile: any =
@@ -95,7 +98,7 @@ class StartUp {
       try {
         const { name, category, description, price } = req.body;
 
-        const product = new Product( name, category, description, price);
+        const product = new Product(name, category, description, price);
 
         res.send({
           product: await this.productService.save(product),
@@ -106,17 +109,17 @@ class StartUp {
         });
       }
     });
+
     this.app.route("/api/products/:id").put(async (req, res) => {
       try {
         const { name, category, description, price } = req.body;
 
-        const product = new Product( name, category, description, price);
-        product.setId(+req.params.id)
+        const product = new Product(name, category, description, price);
+        product.setId(+req.params.id);
 
         res.send({
           product: await this.productService.update(product),
         });
-
       } catch (e) {
         res.send({
           error: e.message,
@@ -142,6 +145,7 @@ class StartUp {
           req.params.category.charAt(0).toUpperCase() +
             req.params.category.slice(1)
         );
+
         res.send({
           products: await this.productService.listByCategory(category),
         });
@@ -151,7 +155,32 @@ class StartUp {
         });
       }
     });
-  
+
+    this.app.route("/api/payments").post(async (req, res) => {
+      const { order_id } = req.body;
+
+      try {
+        res.send({
+          payment: await this.paymentService.save(order_id),
+        });
+      } catch (e) {
+        res.send({
+          error: e.message,
+        });
+      }
+    });
+
+    this.app.route("/api/payments/:id/pay").put(async (req, res) => {
+      try {
+        res.send({
+          payment: await this.paymentService.pay(Number(req.params.id)),
+        });
+      } catch (e) {
+        res.send({
+          error: e.message,
+        });
+      }
+    });
   }
 }
 

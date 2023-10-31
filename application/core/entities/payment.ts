@@ -14,4 +14,16 @@ export class Payment {
   public doPayment(): void {
     this.status = new PaymentStatus(PaymentStatus.PAGO);
   }
+
+  public getId(): number {
+    return this.Id;
+  }
+
+  public getOrder(): Order {
+    return this.order;
+  }
+
+  public getStatus(): PaymentStatus {
+    return this.status;
+  }
 }

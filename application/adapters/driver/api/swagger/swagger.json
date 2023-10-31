@@ -284,6 +284,58 @@
           }
         }
       }
+    },
+    "/payments": {
+      "post": {
+        "tags": ["Pagamento"],
+        "summary": "Post payment",
+        "description": "Solicitação de pagamento",
+        "produces": ["application/json"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/todosResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
+    },
+    "/payments/{id}/pay": {
+      "put": {
+        "tags": ["Pagamento"],
+        "summary": "Put payment",
+        "description": "Realizar pagamento",
+        "produces": ["application/json"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/todosResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "schema": {
+              "$ref": "#/definitions/InvalidResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {

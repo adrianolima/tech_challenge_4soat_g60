@@ -34,4 +34,8 @@ export class Order {
 
     this.valueTotal = new Money(calcValueTotal);
   }
+
+  public getId(): number {
+    return this.Id;
+  }
 }
