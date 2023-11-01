@@ -4,10 +4,8 @@ import {Client} from "../../../../core/entities/client";
 import * as express from "express";
 import {container} from "tsyringe";
 import {ClientService} from "../../../../core/services/clientService";
-import CPFExistsError from "../../../../core/errors/CPFExistsError";
-import {Class} from "type-fest";
-import APIErrorHandler from "../error/APIErrorHandler";
-import {ClientResponseDTO} from "../dto/client";
+import {handleAPIError} from "../error/APIErrorHandler";
+import {mapClientToResponse} from "../dto/client";
 
 
 export default class ClientRoute implements IAppRoute {
@@ -20,10 +18,10 @@ export default class ClientRoute implements IAppRoute {
     app.route("/api/client").get(async (req, res) => {
       try {
         const clientes = await this.clientService.getClients()
-        const mappedClients = clientes.map(this.mapToResponse)
+        const mappedClients = clientes.map(mapClientToResponse)
         res.send(mappedClients);
       } catch (e) {
-        this.handleError(res, e)
+        handleAPIError(res, e)
       }
     });
 
@@ -31,9 +29,9 @@ export default class ClientRoute implements IAppRoute {
 
       try {
         const cliente = await this.clientService.getClient(new CPF(req.params.cpf))
-        res.send(this.mapToResponse(cliente));
+        res.send(mapClientToResponse(cliente));
       } catch (e) {
-        this.handleError(res, e)
+        handleAPIError(res, e)
       }
     });
 
@@ -46,35 +44,15 @@ export default class ClientRoute implements IAppRoute {
         const savedClient = await this.clientService.save(client)
 
         res.status(201)
-        res.send(this.mapToResponse(savedClient));
+        res.send(mapClientToResponse(savedClient));
       } catch (e) {
-        this.handleError(res, e)
+        handleAPIError(res, e)
       }
     });
   }
 
-  mapToResponse(client: Client): ClientResponseDTO {
-    return {
-      id: client.getId(),
-      name: client.getName(),
-      cpf: client.getCPF(),
-      email: client.getEmail(),
-      updated_at: client.getUpdatedAt(),
-      created_at: client.getCreatedAt(),
-    }
-  }
 
   // @ts-ignore
-  handleError(res: Response<any, any>, e: Error) {
 
-    const statusCode = APIErrorHandler.getStatusCodeFor(e)
-
-    res.status(statusCode)
-    res.send({
-      code: statusCode,
-      error: e.message,
-    });
-
-  }
 
 }

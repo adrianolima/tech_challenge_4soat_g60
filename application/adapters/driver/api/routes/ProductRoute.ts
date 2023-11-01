@@ -4,6 +4,8 @@ import {Category} from "../../../../core/valueObjects/category";
 import * as express from "express";
 import {container} from "tsyringe";
 import {ProductsService} from "../../../../core/services/productsService";
+import {mapProductToResponse} from "../dto/product";
+import {handleAPIError} from "../error/APIErrorHandler";
 
 export default class ProductRoute implements IAppRoute {
 
@@ -13,7 +15,8 @@ export default class ProductRoute implements IAppRoute {
 
 
     app.route("/api/products").get(async (req, res) => {
-      res.send({products: await this.productService.list()});
+      const products = await this.productService.list()
+      res.send(products.map(mapProductToResponse));
     });
 
     app.route("/api/products").post(async (req, res) => {
@@ -21,16 +24,14 @@ export default class ProductRoute implements IAppRoute {
         const {name, category, description, price} = req.body;
 
         const product = new Product(name, category, description, price);
+        const savedProduct = await this.productService.save(product)
 
-        res.send({
-          product: await this.productService.save(product),
-        });
+        res.send(mapProductToResponse(savedProduct));
       } catch (e) {
-        res.send({
-          error: e.message,
-        });
+        handleAPIError(res, e)
       }
     });
+
     app.route("/api/products/:id").put(async (req, res) => {
       try {
         const {name, category, description, price} = req.body;
@@ -38,26 +39,23 @@ export default class ProductRoute implements IAppRoute {
         const product = new Product(name, category, description, price);
         product.setId(+req.params.id)
 
-        res.send({
-          product: await this.productService.update(product),
-        });
+        const updatedProduct = await this.productService.update(product);
+
+        res.send(mapProductToResponse(updatedProduct));
 
       } catch (e) {
-        res.send({
-          error: e.message,
-        });
+        handleAPIError(res, e)
       }
     });
 
     app.route("/api/products/:id").delete(async (req, res) => {
       try {
-        res.send({
-          product: await this.productService.delete(+req.params.id),
-        });
+
+        await this.productService.delete(+req.params.id)
+        
+        res.sendStatus(204)
       } catch (e) {
-        res.send({
-          error: e.message,
-        });
+        handleAPIError(res, e)
       }
     });
 
@@ -67,13 +65,12 @@ export default class ProductRoute implements IAppRoute {
           req.params.category.charAt(0).toUpperCase() +
           req.params.category.slice(1)
         );
-        res.send({
-          products: await this.productService.listByCategory(category),
-        });
+
+        const products = await this.productService.listByCategory(category)
+
+        res.send(products.map(mapProductToResponse));
       } catch (e) {
-        res.send({
-          error: e.message,
-        });
+        handleAPIError(res, e)
       }
     });
   }

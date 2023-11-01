@@ -8,8 +8,8 @@ export class Product {
   private category: Category;
   private price: Money;
   private active: boolean;
-  private created_at: Date;
-  private updated_at: Date;
+  private createdAt?: Date;
+  private updatedAt?: Date;
 
   constructor(
     name: string,
@@ -23,12 +23,12 @@ export class Product {
     this.price = new Money(price);
   }
 
-  static New(id: number, name: string, description: string, category: string, price: number, active: boolean, created_at: Date, updated_at: Date): Product {
+  static New(id: number, name: string, description: string, category: string, price: number, active: boolean, created_at?: Date, updated_at?: Date): Product {
     const p = new Product(name, category, description, price)
     p.id = id;
     p.active = active;
-    p.created_at = created_at;
-    p.updated_at = updated_at;
+    p.createdAt = created_at;
+    p.updatedAt = updated_at;
     return p;
   }
 
@@ -56,6 +56,18 @@ export class Product {
     return this.id;
   }
 
+
+  getActive(): boolean {
+    return this.active;
+  }
+
+  getCreatedAt(): Date {
+    return this.createdAt;
+  }
+
+  getUpdatedAt(): Date {
+    return this.updatedAt;
+  }
 }
 
 

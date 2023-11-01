@@ -5,6 +5,7 @@ import {InvalidEmailError} from "../../../../core/errors/InvalidEmailError";
 import {InvalidCPFError} from "../../../../core/errors/InvalidCPFError";
 import {InvalidNameError} from "../../../../core/errors/InvalidNameError";
 import RecordNotFoundError from "../../../../core/errors/RecordNotFoundError";
+import InvalidCategoryError from "../../../../core/errors/InvalidCategoryError";
 
 const HTTP_STATUS_BAD_REQUEST = 400
 const HTTP_STATUS_CONFLICT = 409
@@ -24,6 +25,7 @@ export default class APIErrorHandler {
     errors.set(InvalidEmailError, HTTP_STATUS_BAD_REQUEST)
     errors.set(InvalidCPFError, HTTP_STATUS_BAD_REQUEST)
     errors.set(InvalidNameError, HTTP_STATUS_BAD_REQUEST)
+    errors.set(InvalidCategoryError, HTTP_STATUS_BAD_REQUEST)
 
     // Not Found
     errors.set(RecordNotFoundError, HTTP_STATUS_NOT_FOUND)
@@ -46,5 +48,21 @@ export default class APIErrorHandler {
     // Internal server error for unknown errors
     return HTTP_INTERNAL_SERVER_ERROR
   }
+
+}
+
+/**
+ * Handle API business errors and send the appropriate status code and message
+ */
+// @ts-ignore
+export function handleAPIError(res: Response<any, any>, e: Error) {
+
+  const statusCode = APIErrorHandler.getStatusCodeFor(e)
+
+  res.status(statusCode)
+  res.send({
+    code: statusCode,
+    error: e.message,
+  });
 
 }
