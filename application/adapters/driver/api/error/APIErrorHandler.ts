@@ -45,6 +45,8 @@ export default class APIErrorHandler {
       }
     }
 
+    console.error(occurredError)
+
     // Internal server error for unknown errors
     return HTTP_INTERNAL_SERVER_ERROR
   }

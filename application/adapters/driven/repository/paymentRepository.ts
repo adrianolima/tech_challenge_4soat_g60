@@ -42,7 +42,7 @@ export class PaymentRepository implements IPaymentRepository {
 
     const savedPayment = await prisma.payment.create({
       data: {
-        order_id: payment.id,
+        order_id: payment.orderId,
         integration_id: payment.integrationId,
         status: payment.status.value(),
         qr_code: payment.qrCode,

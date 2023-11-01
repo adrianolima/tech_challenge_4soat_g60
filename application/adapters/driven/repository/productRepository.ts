@@ -48,6 +48,17 @@ export class ProductRepository implements IProductRepository {
     return products.map(ProductMapper.map);
   }
 
+  async getProductByIDs(ids: number[]): Promise<Product[]> {
+    const products: any = await prisma.product.findMany({
+      where: {
+        id: {
+          in: ids
+        }
+      }
+    });
+    return products.map(ProductMapper.map);
+  }
+
   async getProducts(): Promise<Product[]> {
     const products: any = await prisma.product.findMany({
       where: {

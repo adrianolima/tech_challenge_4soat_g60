@@ -23,7 +23,7 @@ export class Order {
   }
 
 
-  static New(id: number, items: Array<OrderItem>, client: Client, payment: Payment, valueTotal: number, status: string, createdAt?: Date, updatedAt?: Date): Order {
+  static New(id: number, items: Array<OrderItem>, valueTotal: number, status: string, client?: Client, payment?: Payment, createdAt?: Date, updatedAt?: Date): Order {
     const o = new Order([])
     o._id = id;
     o._items = items;

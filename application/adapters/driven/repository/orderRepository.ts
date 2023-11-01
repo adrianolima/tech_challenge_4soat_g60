@@ -6,6 +6,7 @@ import {PaymentData, PaymentMapper} from "./paymentRepository";
 import {ClientData, ClienteMapper} from "./clientRepository";
 import {ProductData, ProductMapper} from "./productRepository";
 import {OrderItem} from "../../../core/entities/orderItem";
+import OrderItemUncheckedUpdateManyWithoutOrderNestedInput = Prisma.OrderItemUncheckedUpdateManyWithoutOrderNestedInput;
 
 const prisma = new PrismaClient();
 
@@ -38,10 +39,11 @@ export class OrderMapper {
     return Order.New(
       d.id,
       d.items.map(OrderItemMapper.map),
-      ClienteMapper.map(d.client),
-      PaymentMapper.map(d.payment),
+
       d.total.toNumber(),
       d.status,
+      !d.client ? null : ClienteMapper.map(d.client),
+      !d.payment ? null : PaymentMapper.map(d.payment),
       d.created_at,
       d.updated_at
     )
@@ -92,25 +94,40 @@ export class OrderRepository implements IOrderRepository {
   async save(o: Order): Promise<Order> {
 
     const data = {
+      client_id: o.client?.getId(),
+      payment_id: o.payment?.id,
+      status: o.status.getStatus(),
+      total: o.valueTotal.getValueMoney(),
+      items: {
+        create: o.items.map(i => ({
+          product_id: i.product.getId(),
+          quantity: i.quantity,
+          price: i.value,
+          total: i.total,
+        }))
+      }
+    }
+
+    const savedOrder = await prisma.order.create({
+        data: data,
+      }
+    )
+
+    return this.getOrderByID(savedOrder.id)
+  }
+
+  async update(o: Order): Promise<Order> {
+
+    const data = {
       id: o.id,
       client_id: o.client?.getId(),
       payment_id: o.payment?.id,
       status: o.status.getStatus(),
       total: o.valueTotal.getValueMoney(),
-      items: o.items.map(i => ({
-        id: i.id,
-        order_id: o.id,
-        product_id: i.product.getId(),
-        quantity: i.quantity,
-        price: i.value,
-        total: i.total,
-      }))
-
     }
 
-    const savedOrder = await prisma.order.upsert({
-        create: data as any,
-        update: data as any,
+    const savedOrder = await prisma.order.update({
+        data: data,
         where: {
           id: o.id
         },
@@ -124,7 +141,7 @@ export class OrderRepository implements IOrderRepository {
       }
     )
 
-    return OrderMapper.map(savedOrder)
+    return this.getOrderByID(savedOrder.id)
   }
 
   async getOrderByID(orderID: number): Promise<Order | null> {

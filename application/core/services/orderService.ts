@@ -8,6 +8,9 @@ import {ClientService} from "./clientService";
 import {OrderItem} from "../entities/orderItem";
 import {Payment} from "../entities/payment";
 import {PaymentStatus} from "../valueObjects/paymentStatus";
+import {OrderItemRequest} from "../../adapters/driver/api/dto/order";
+import {IProductRepository} from "../ports/IProductRepository";
+import ProductInactiveError from "../errors/ProductInactiveError";
 
 
 @injectable()
@@ -15,6 +18,7 @@ export default class OrderService {
 
   constructor(
     @inject("IOrderRepository") private _orderRepository: IOrderRepository,
+    @inject("IProductRepository") private _productRepository: IProductRepository,
     @inject("ClientService") private _clienteService: ClientService
   ) {
   }
@@ -22,7 +26,28 @@ export default class OrderService {
   /**
    * Save a new order, this method should be used just for order creation
    */
-  async save(items: Array<OrderItem>): Promise<Order> {
+  async save(requestItems: Array<OrderItemRequest>): Promise<Order> {
+
+    // Find all related products
+    const products = await this._productRepository.getProductByIDs(
+      requestItems.map(v => v.product_id)
+    )
+
+    // Create the OrderItems list
+    const items = requestItems.map(ri => {
+        const product = products.find(p => p.getId() === ri.product_id)
+
+        if (!product) {
+          throw new RecordNotFoundError(`No product found for the id: ${ri.product_id}`)
+        }
+
+        if (!product.getActive()) {
+          throw new ProductInactiveError(`The requested product is unavailable: "${product.getName()}"`)
+        }
+
+        return new OrderItem(product, ri.quantity)
+      }
+    )
 
     const order = new Order(items)
 
@@ -41,7 +66,7 @@ export default class OrderService {
     order.setPayment(payment)
     order.setStatus(this.getOrderStatusByPayment(payment))
 
-    return await this._orderRepository.save(order)
+    return await this._orderRepository.update(order)
   }
 
   private getOrderStatusByPayment(payment: Payment): OrderStatus {
@@ -77,10 +102,11 @@ export default class OrderService {
    */
   async updateOrderStatus(orderID: number, status: OrderStatus): Promise<Order> {
 
+    // TODO: add some validations depending on actual status
     const order: Order = await this.getOrderByID(orderID)
     order.setStatus(status)
 
-    return await this._orderRepository.save(order)
+    return await this._orderRepository.update(order)
   }
 
   /**
@@ -102,7 +128,7 @@ export default class OrderService {
     order.setClient(client)
     order.setStatus(OrderStatus.AGUARDANDO_PAGAMENTO)
 
-    return await this._orderRepository.save(order)
+    return await this._orderRepository.update(order)
   }
 
   /**

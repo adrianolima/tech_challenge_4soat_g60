@@ -60,8 +60,7 @@ model OrderItem {
   quantity   Decimal
   price      Decimal
   total      Decimal
-  Order      Order?  @relation(fields: [orderId], references: [id])
-  orderId    Int?
+  Order      Order?  @relation(fields: [order_id], references: [id])
 
   @@map("order_item")
 }
