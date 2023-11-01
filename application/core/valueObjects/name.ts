@@ -1,15 +1,18 @@
+import {InvalidNameError} from "../errors/InvalidNameError";
+
 export class Name {
   private value: string;
 
   constructor(name: string) {
-    this.value = name;
-    if (this.value) {
+    if (!name) {
       validate("O campo nome é obrigatório");
     }
 
-    if (this.value.length < 3) {
+    if (name.length < 3) {
       validate("O nome deve ter no mínimo 3 caracteres");
     }
+
+    this.value = name;
   }
 
   getName(): string {
@@ -18,5 +21,5 @@ export class Name {
 }
 
 const validate = (message: string) => {
-  throw new Error(message);
+  throw new InvalidNameError(message);
 };

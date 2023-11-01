@@ -1,3 +1,5 @@
+import {InvalidEmailError} from "../errors/InvalidEmailError";
+
 export class Email {
   private value: string;
 
@@ -18,5 +20,5 @@ export class Email {
 }
 
 const validate = (message: string) => {
-  throw new Error(message);
+  throw new InvalidEmailError(message);
 };

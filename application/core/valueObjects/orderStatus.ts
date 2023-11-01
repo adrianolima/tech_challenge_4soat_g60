@@ -1,22 +1,33 @@
+import InvalidOrderStatusError from "../errors/InvalidOrderStatusError";
+
 export class OrderStatus {
-  static EM_PREPARACAO = "Em preparação";
-  static PRONTO = "Pronto";
-  static RECEBIDO = "Recebido";
-  static FINALIZADO = "Finalizado";
+  static CRIADO: OrderStatus = new OrderStatus("Criado"); // Pedido criado mas não associado a nenhum cliente
+  static CANCELADO: OrderStatus = new OrderStatus("Cancelado"); // Cliente desistiu do pagamento
+  static AGUARDANDO_PAGAMENTO: OrderStatus = new OrderStatus("Aguardando Pagamento"); // Cliente se autenticou (fez cadastro)
+  static AGUARDANDO_PREPARO: OrderStatus = new OrderStatus("Aguardando Preparo"); // Cliente realizou o pagamento
+  static EM_PREPARACAO: OrderStatus = new OrderStatus("Em preparação");
+  static PRONTO: OrderStatus = new OrderStatus("Pronto");
+  static ENTREGUE: OrderStatus = new OrderStatus("Entregue");
 
   private status: string;
 
   constructor(status: string) {
-    if (
-      status !== OrderStatus.EM_PREPARACAO &&
-      status !== OrderStatus.FINALIZADO &&
-      status !== OrderStatus.PRONTO &&
-      status !== OrderStatus.FINALIZADO
-    ) {
-      validate("Status inválido");
+    this.status = status;
+    const allStatus = [
+      OrderStatus.CRIADO,
+      OrderStatus.CANCELADO,
+      OrderStatus.AGUARDANDO_PAGAMENTO,
+      OrderStatus.AGUARDANDO_PREPARO,
+      OrderStatus.EM_PREPARACAO,
+      OrderStatus.PRONTO,
+      OrderStatus.ENTREGUE,
+    ]
+    
+    if (!allStatus.map((o) => !o ? status : o.status).includes(status)) {
+      validate();
     }
 
-    this.status = status;
+
   }
 
   getStatus(): string {
@@ -24,6 +35,6 @@ export class OrderStatus {
   }
 }
 
-const validate = (message: string) => {
-  throw new Error(message);
+const validate = () => {
+  throw new InvalidOrderStatusError();
 };

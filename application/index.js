@@ -3,7 +3,7 @@ var {Client} = require('pg');
 var app = express()
 
 client = new Client({
-    host: 'totem-postgres',
+    host: 'localhost',
     user: 'totem',
     password: 'totem',
     database: 'totem',
@@ -16,13 +16,6 @@ client.connect().then(() => {
 });
 
 app.get('/', function (req, res) {
-    client.query('SELECT * FROM clientes', (err, result) => {
-        if (err) {
-            console.error('Error executing query:', err);
-        } else {
-            res.json(result.rows)
-        }
-    });
 
 })
 

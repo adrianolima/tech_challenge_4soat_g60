@@ -45,7 +45,7 @@ services:
       - ./docker/bin:/var/bin
     command: sh -c "npm install && chown -R www-data:www-data /var/www"
     ports:
-      - "80:80"
+      - "3000:80"
     links:
       - totem-postgres
     networks:

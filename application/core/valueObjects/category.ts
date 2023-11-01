@@ -1,3 +1,5 @@
+import InvalidCategoryError from "../errors/InvalidCategoryError";
+
 export class Category {
   static LANCHE = "Lanche";
   static ACOMPANHAMENTO = "Acompanhamento";
@@ -7,6 +9,7 @@ export class Category {
   private category: string;
 
   constructor(category: string) {
+
     if (
       category !== Category.LANCHE &&
       category !== Category.ACOMPANHAMENTO &&
@@ -25,5 +28,5 @@ export class Category {
 }
 
 const validate = (message: string) => {
-  throw new Error(message);
+  throw new InvalidCategoryError(message);
 };
