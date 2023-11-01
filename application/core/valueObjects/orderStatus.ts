@@ -12,21 +12,22 @@ export class OrderStatus {
   private status: string;
 
   constructor(status: string) {
-    if (
-      ![
-        OrderStatus.CRIADO,
-        OrderStatus.CANCELADO,
-        OrderStatus.AGUARDANDO_PAGAMENTO,
-        OrderStatus.AGUARDANDO_PREPARO,
-        OrderStatus.EM_PREPARACAO,
-        OrderStatus.PRONTO,
-        OrderStatus.ENTREGUE,
-      ].map((o) => o.status).includes(status)
-    ) {
+    this.status = status;
+    const allStatus = [
+      OrderStatus.CRIADO,
+      OrderStatus.CANCELADO,
+      OrderStatus.AGUARDANDO_PAGAMENTO,
+      OrderStatus.AGUARDANDO_PREPARO,
+      OrderStatus.EM_PREPARACAO,
+      OrderStatus.PRONTO,
+      OrderStatus.ENTREGUE,
+    ]
+    
+    if (!allStatus.map((o) => !o ? status : o.status).includes(status)) {
       validate();
     }
 
-    this.status = status;
+
   }
 
   getStatus(): string {

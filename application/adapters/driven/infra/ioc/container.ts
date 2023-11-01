@@ -1,13 +1,16 @@
 import "reflect-metadata";
-import { container } from "tsyringe";
+import {container} from "tsyringe";
 
-import { ClientRepository } from "../../repository/clientRepository";
-import { ClientService } from "../../../../core/services/clientService";
-import { ProductRepository } from "../../repository/productRepository";
-import { ProductsService } from "../../../../core/services/productsService";
-import { PaymentRepository } from "../../repository/paymentRepository";
-import { PaymentService } from "../../../../core/services/paymentService";
+import {ClientRepository} from "../../repository/clientRepository";
+import {ClientService} from "../../../../core/services/clientService";
+import {ProductRepository} from "../../repository/productRepository";
+import {ProductsService} from "../../../../core/services/productsService";
+import {PaymentRepository} from "../../repository/paymentRepository";
+import {PaymentService} from "../../../../core/services/paymentService";
 import MercadoPagoPaymentGateway from "../../gateway/mercadoPagoPaymentGateway";
+import {OrderRepository} from "../../repository/orderRepository";
+import OrderService from "../../../../core/services/orderService";
+import OrderQueueService from "../../../../core/services/queueService";
 
 container.register("IClientRepository", {
   useClass: ClientRepository,
@@ -35,4 +38,16 @@ container.register("PaymentService", {
 
 container.register("IPaymentGateway", {
   useClass: MercadoPagoPaymentGateway,
+});
+
+container.register("IOrderRepository", {
+  useClass: OrderRepository,
+});
+
+container.register("OrderService", {
+  useClass: OrderService,
+});
+
+container.register("OrderQueueService", {
+  useClass: OrderQueueService,
 });

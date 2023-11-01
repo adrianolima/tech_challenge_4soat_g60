@@ -18,7 +18,6 @@ type OrderData = {
   payment_id: number
   status: string
   total: Prisma.Decimal
-  active: boolean
   created_at?: Date
   updated_at?: Date
 }
@@ -62,7 +61,7 @@ export class OrderItemMapper {
   }
 }
 
-class OrderRepository implements IOrderRepository {
+export class OrderRepository implements IOrderRepository {
   async getOrderByStatus(status: OrderStatus): Promise<Array<Order>> {
     const dados = await prisma.order.findMany({
       where: {status: status.getStatus()},

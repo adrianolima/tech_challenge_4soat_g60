@@ -1,3 +1,5 @@
+import {InvalidNameError} from "../errors/InvalidNameError";
+
 export class Name {
   private value: string;
 
@@ -19,5 +21,5 @@ export class Name {
 }
 
 const validate = (message: string) => {
-  throw new Error(message);
+  throw new InvalidNameError(message);
 };

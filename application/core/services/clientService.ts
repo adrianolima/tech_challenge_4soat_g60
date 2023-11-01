@@ -46,7 +46,7 @@ export class ClientService {
     return await this._clientRepository.getClients();
   }
 
-  async save(client: Client): Promise<string> {
+  async save(client: Client): Promise<Client> {
     return await this._clientRepository.save(client);
   }
 }

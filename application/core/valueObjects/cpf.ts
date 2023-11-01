@@ -1,3 +1,5 @@
+import {InvalidCPFError} from "../errors/InvalidCPFError";
+
 export class CPF {
   private value: string;
 
@@ -15,5 +17,5 @@ export class CPF {
 }
 
 const validate = (message: string) => {
-  throw new Error(message);
+  throw new InvalidCPFError(message);
 };
