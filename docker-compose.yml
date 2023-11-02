@@ -28,7 +28,6 @@ services:
       - DATABASE_URL=postgresql://totem:totem@totem-postgres:5432/totem
       - PORT=3000
     volumes:
-      - ./application:/var/www
       - ./docker/bin:/var/bin
     command: sh -c "npm install && chown -R www-data:www-data /var/www"
     depends_on: 
