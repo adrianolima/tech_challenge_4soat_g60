@@ -24,6 +24,9 @@ services:
       context: .
       dockerfile: docker/node/Dockerfile
     container_name: totem-api
+    environment:
+      - DATABASE_URL=postgresql://totem:totem@totem-postgres:5432/totem
+      - PORT=3000
     volumes:
       - ./application:/var/www
       - ./docker/bin:/var/bin

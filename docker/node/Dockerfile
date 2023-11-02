@@ -16,6 +16,10 @@ ADD application/adapters /var/www/adapters
 ADD application/core /var/www/core
 ADD application/prisma /var/www/prisma
 ADD application/.env.example /var/www/.env
+
+RUN echo "export $(egrep -v '^#' .env | xargs)" >> /root/.bashrc
+RUN source /root/.bashrc
+
 ADD application/package.json /var/www/package.json
 ADD application/package-lock.json /var/www/package-lock.json
 ADD application/tsconfig.json /var/www/tsconfig.json

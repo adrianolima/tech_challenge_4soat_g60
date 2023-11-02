@@ -1,6 +1,6 @@
 # Título do Projeto
 
-API criada para o tech challenge da Pós Tech FIAP do curso de Arquitetura de Sofware turma 4SOAT - G60
+API criada para o tech challenge da Pós Tech FIAP do curso de Arquitetura de Software turma 4SOAT - G60
 
 ## Iniciando projeto
 
@@ -10,10 +10,16 @@ Para iniciar esse projeto, após clonar rode no terminal:
   cd docker/bin
 ```
 
-Dentro da pasta bin rode no terminal:
+dentro da pasta /bin rode no terminal:
 
 ```bash
   ./setup.sh
+```
+
+Após rodar o setup insira no terminal:
+
+```bash
+  ./seeder.sh
 ```
 
 ## Funcionalidades
@@ -21,8 +27,8 @@ Dentro da pasta bin rode no terminal:
 #### Cliente
 
 - Cadastrar cliente
-- Buscar cliente por cpf
-- Listar todos os cliente
+- Buscar clientes por CPF
+- Listar todos os clientes
 - Cadastrar pedido
 
 #### Pedido
@@ -44,11 +50,11 @@ Dentro da pasta bin rode no terminal:
 - Listar todos os produtos
 - Atualizar produtos
 - Apagar produtos
-- Fazer pagamento
+- Processar pagamento
 
-## Documentação
+## Postman
 
-[Documentação](https://documenter.getpostman.com/view/18248829/2s9YXcdk4n#c49c911e-6125-4efd-8c3a-11db52a480c5)
+[Postman](https://documenter.getpostman.com/view/18248829/2s9YXcdkDW)
 
 ## Miro
 
