@@ -1,11 +1,10 @@
-INSERT INTO "Client"(name, email, cpf)
-VALUES ('Maria', 'maria@email.com', '000.000.00-00'),
-       ('José', 'jose@email.com', '111.111.111-11');
+-- Insert a fake client
+INSERT INTO public.clients ( cpf, email, name, created_at, updated_at) VALUES ('123.456.789-09', 'fulanosilva@gmail', 'Fulano da Silva', '2023-11-02 01:27:33.200', '2023-11-02 01:27:33.200');
 
-INSERT INTO "products" ("name", description, category, price, active)
-VALUES ('Hamburguer', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tempus elit orci, sed lacinia justo lacinia vel. Aenean suscipit, lectus id interdum pellentesque, felis erat blandit', 'Lanche', 10.00, true),
-('Batata Frita', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur tempus elit orci, sed lacinia justo lacinia vel. Aenean suscipit, lectus id interdum pellentesque, felis erat blandit', 'Acompanhamento', 5.50, true),
-('Coca Cola', 'Teste', 'Bebida', 8.22, true),
-('Fanta', 'Teste', 'Bebida', 7.50, false),
-('Sorvete', 'Teste', 'Sobremesa', 2.00, true),
-('Sundae', 'teste', 'Sobremesa', 6.00, true);
+-- Insert products data
+INSERT INTO public.products (name, description, category, price, active) VALUES ('Sorvete', 'Lorem ipsum dolor sit amet', 'Sobremesa', 3.000000000000000000000000000000, true);
+INSERT INTO public.products (name, description, category, price, active) VALUES ('Milk Shake', 'Lorem ipsum dolor sit amet', 'Sobremesa', 6.000000000000000000000000000000, true);
+INSERT INTO public.products (name, description, category, price, active) VALUES ('Hamburguer', 'Lorem ipsum dolor sit amet', 'Lanche', 10.000000000000000000000000000000, true);
+INSERT INTO public.products (name, description, category, price, active) VALUES ('Fanta', 'Lorem ipsum dolor sit amet', 'Bebida', 6.000000000000000000000000000000, false);
+INSERT INTO public.products (name, description, category, price, active) VALUES ('Coca Cola', 'Lorem ipsum dolor sit amet', 'Bebida', 8.300000000000001000000000000000, true);
+INSERT INTO public.products (name, description, category, price, active) VALUES ('Batata frita', 'Lorem ipsum dolor sit amet', 'Acompanhamento', 5.500000000000000000000000000000, true);

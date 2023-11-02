@@ -6,6 +6,8 @@ import {InvalidCPFError} from "../../../../core/errors/InvalidCPFError";
 import {InvalidNameError} from "../../../../core/errors/InvalidNameError";
 import RecordNotFoundError from "../../../../core/errors/RecordNotFoundError";
 import InvalidCategoryError from "../../../../core/errors/InvalidCategoryError";
+import InvalidOrderStatusError from "../../../../core/errors/InvalidOrderStatusError";
+import ProductInactiveError from "../../../../core/errors/ProductInactiveError";
 
 const HTTP_STATUS_BAD_REQUEST = 400
 const HTTP_STATUS_CONFLICT = 409
@@ -20,12 +22,14 @@ export default class APIErrorHandler {
     // Conflict errors
     errors.set(CPFExistsError, HTTP_STATUS_CONFLICT)
     errors.set(EmailExistsError, HTTP_STATUS_CONFLICT)
+    errors.set(ProductInactiveError, HTTP_STATUS_CONFLICT)
 
     // Bad request errors
     errors.set(InvalidEmailError, HTTP_STATUS_BAD_REQUEST)
     errors.set(InvalidCPFError, HTTP_STATUS_BAD_REQUEST)
     errors.set(InvalidNameError, HTTP_STATUS_BAD_REQUEST)
     errors.set(InvalidCategoryError, HTTP_STATUS_BAD_REQUEST)
+    errors.set(InvalidOrderStatusError, HTTP_STATUS_BAD_REQUEST)
 
     // Not Found
     errors.set(RecordNotFoundError, HTTP_STATUS_NOT_FOUND)

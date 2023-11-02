@@ -21,9 +21,9 @@ export default class ProductRoute implements IAppRoute {
 
     app.route("/api/products").post(async (req, res) => {
       try {
-        const {name, category, description, price} = req.body;
+        const {name, category, description, price, active} = req.body;
 
-        const product = new Product(name, category, description, price);
+        const product = new Product(name, category, description, price, active);
         const savedProduct = await this.productService.save(product)
 
         res.send(mapProductToResponse(savedProduct));
@@ -34,9 +34,9 @@ export default class ProductRoute implements IAppRoute {
 
     app.route("/api/products/:id").put(async (req, res) => {
       try {
-        const {name, category, description, price} = req.body;
+        const {name, category, description, price, active} = req.body;
 
-        const product = new Product(name, category, description, price);
+        const product = new Product(name, category, description, price, active);
         product.setId(+req.params.id)
 
         const updatedProduct = await this.productService.update(product);

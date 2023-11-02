@@ -74,7 +74,8 @@ export class ProductRepository implements IProductRepository {
         name: product.getName(),
         price: product.getValueProduct(),
         description: product.getDescription(),
-        category: product.getCategory()
+        category: product.getCategory(),
+        active: product.getActive()
       },
     });
 
@@ -88,6 +89,7 @@ export class ProductRepository implements IProductRepository {
         price: product.getValueProduct(),
         description: product.getDescription(),
         category: product.getCategory(),
+        active: product.getActive()
       },
       where: {
         id: product.getId()

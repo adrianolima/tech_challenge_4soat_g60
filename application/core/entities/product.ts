@@ -15,16 +15,18 @@ export class Product {
     name: string,
     category: string,
     description: string,
-    price: number
+    price: number,
+    active: boolean
   ) {
     this.name = name;
     this.category = new Category(category);
     this.description = description;
     this.price = new Money(price);
+    this.active = active;
   }
 
   static New(id: number, name: string, description: string, category: string, price: number, active: boolean, created_at?: Date, updated_at?: Date): Product {
-    const p = new Product(name, category, description, price)
+    const p = new Product(name, category, description, price, active)
     p.id = id;
     p.active = active;
     p.createdAt = created_at;
