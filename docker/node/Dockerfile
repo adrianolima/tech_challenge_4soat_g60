@@ -12,10 +12,18 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 ENV PATH /var/www/node_modules/.bin:$PATH
 
-ADD application /var/www
+ADD application/adapters /var/www/adapters
+ADD application/core /var/www/core
+ADD application/prisma /var/www/prisma
+ADD application/.env.example /var/www/.env
+ADD application/package.json /var/www/package.json
+ADD application/package-lock.json /var/www/package-lock.json
+ADD application/tsconfig.json /var/www/tsconfig.json
 
-RUN npm run prisma-gen
+RUN npm install --loglevel verbose
+RUN #./node_modules/.bin/tsc
 RUN tsc
+
 
 ADD docker/bin /var/bin
 

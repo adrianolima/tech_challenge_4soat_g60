@@ -14,8 +14,8 @@ const HTTP_INTERNAL_SERVER_ERROR = 500
 export default class APIErrorHandler {
 
 
-  static getBusinessErrors(): Map<Class, number> {
-    const errors = new Map<Class, number>()
+  static getBusinessErrors(): Map<Class<any>, number> {
+    const errors = new Map<Class<any>, number>()
 
     // Conflict errors
     errors.set(CPFExistsError, HTTP_STATUS_CONFLICT)

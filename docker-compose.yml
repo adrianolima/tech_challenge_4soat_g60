@@ -15,25 +15,9 @@ services:
         - POSTGRES_DB=totem
         - PGDATA=/application/postgres
       ports:
-        - "5433:5432"
+        - "5432:5432"
       networks:
         - default
-
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: techchallenge@g60.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    volumes:
-      - ./docker/database/pgadmin/:/var/lib/pgadmin
-    links:
-      - totem-postgres
-    ports:
-      - "8000:80"
-    networks:
-      - default
 
   totem-api:
     build:
@@ -44,8 +28,10 @@ services:
       - ./application:/var/www
       - ./docker/bin:/var/bin
     command: sh -c "npm install && chown -R www-data:www-data /var/www"
+    depends_on: 
+      - totem-postgres
     ports:
-      - "3000:80"
+      - "3000:3000"
     links:
       - totem-postgres
     networks:
