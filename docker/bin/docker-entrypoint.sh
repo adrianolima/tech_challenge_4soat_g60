@@ -1,7 +1,7 @@
 # docker-entrypoint.sh for node.js
 
 echo "wait postgres db server"
-dockerize -wait tcp://totem-postgres:5432 -timeout 30s
+dockerize -wait tcp://127.0.0.1:5432 -timeout 30s
 
 RUN source /root/.bashrc
 
