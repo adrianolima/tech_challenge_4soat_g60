@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: totem-api
+    app: totem-api
+  name: totem-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: totem-api
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: totem-api
+    spec:
+      containers:
+      - name: totem-api
+        envFrom:
+        - configMapRef:
+       # - secretRef:
+            name: totem-configmap
+        image: adrianoelima/tech_challenge_4soat_g60:1.0.1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        resources:
+          limits:
+            cpu: 500m
+            memory: 2Gi
+          requests:
+            cpu: 100m
+            memory: 256Mi
+        workingDir: /var/www
+      imagePullSecrets:
+      - name: dockerhub
+      restartPolicy: Always
+      volumes:
+      - hostPath:
+          path: /tmp
+          type: Directory
+        name: tmpdir
