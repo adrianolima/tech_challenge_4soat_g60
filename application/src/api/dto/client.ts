@@ -1,13 +1,13 @@
-import {Client} from "../../../../core/entities/client";
+import { Client } from "../../entities/client";
 
 export type ClientResponseDTO = {
   id: number;
   name: string;
   email: string;
   cpf: string;
-  created_at: Date
-  updated_at: Date
-}
+  created_at: Date;
+  updated_at: Date;
+};
 
 export function mapClientToResponse(client: Client): ClientResponseDTO {
   return {
@@ -17,5 +17,5 @@ export function mapClientToResponse(client: Client): ClientResponseDTO {
     email: client.getEmail(),
     updated_at: client.getUpdatedAt(),
     created_at: client.getCreatedAt(),
-  }
+  };
 }

@@ -1,16 +1,16 @@
-import {Payment} from "../../../../core/entities/payment";
+import { Payment } from "../../entities/payment";
 
 export type PaymentResponseDTO = {
-  id: number
-  order_id: number
-  integration_id: string
-  qr_code: string
-  total: number
-  status: string
-  paid_at?: Date
-  created_at?: Date
-  updated_at?: Date
-}
+  id: number;
+  order_id: number;
+  integration_id: string;
+  qr_code: string;
+  total: number;
+  status: string;
+  paid_at?: Date;
+  created_at?: Date;
+  updated_at?: Date;
+};
 
 export function mapPaymentToResponse(p: Payment): PaymentResponseDTO {
   return {
@@ -23,5 +23,5 @@ export function mapPaymentToResponse(p: Payment): PaymentResponseDTO {
     paid_at: p.paidAt,
     created_at: p.createdAt,
     updated_at: p.updatedAt,
-  }
+  };
 }

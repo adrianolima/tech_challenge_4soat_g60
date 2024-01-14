@@ -1,60 +1,56 @@
-import {Class} from "type-fest";
-import CPFExistsError from "../../../../core/errors/CPFExistsError";
-import EmailExistsError from "../../../../core/errors/EmailExistsError";
-import {InvalidEmailError} from "../../../../core/errors/InvalidEmailError";
-import {InvalidCPFError} from "../../../../core/errors/InvalidCPFError";
-import {InvalidNameError} from "../../../../core/errors/InvalidNameError";
-import RecordNotFoundError from "../../../../core/errors/RecordNotFoundError";
-import InvalidCategoryError from "../../../../core/errors/InvalidCategoryError";
-import InvalidOrderStatusError from "../../../../core/errors/InvalidOrderStatusError";
-import ProductInactiveError from "../../../../core/errors/ProductInactiveError";
+import { Class } from "type-fest";
+import CPFExistsError from "../../entities/errors/CPFExistsError";
+import EmailExistsError from "../../entities/errors/EmailExistsError";
+import { InvalidEmailError } from "../../entities/errors/InvalidEmailError";
+import { InvalidCPFError } from "../../entities/errors/InvalidCPFError";
+import { InvalidNameError } from "../../entities/errors/InvalidNameError";
+import RecordNotFoundError from "../../entities/errors/RecordNotFoundError";
+import InvalidCategoryError from "../../entities/errors/InvalidCategoryError";
+import InvalidOrderStatusError from "../../entities/errors/InvalidOrderStatusError";
+import ProductInactiveError from "../../entities/errors/ProductInactiveError";
 
-const HTTP_STATUS_BAD_REQUEST = 400
-const HTTP_STATUS_CONFLICT = 409
-const HTTP_STATUS_NOT_FOUND = 404
-const HTTP_INTERNAL_SERVER_ERROR = 500
+const HTTP_STATUS_BAD_REQUEST = 400;
+const HTTP_STATUS_CONFLICT = 409;
+const HTTP_STATUS_NOT_FOUND = 404;
+const HTTP_INTERNAL_SERVER_ERROR = 500;
 export default class APIErrorHandler {
-
-
   static getBusinessErrors(): Map<Class<any>, number> {
-    const errors = new Map<Class<any>, number>()
+    const errors = new Map<Class<any>, number>();
 
     // Conflict errors
-    errors.set(CPFExistsError, HTTP_STATUS_CONFLICT)
-    errors.set(EmailExistsError, HTTP_STATUS_CONFLICT)
-    errors.set(ProductInactiveError, HTTP_STATUS_CONFLICT)
+    errors.set(CPFExistsError, HTTP_STATUS_CONFLICT);
+    errors.set(EmailExistsError, HTTP_STATUS_CONFLICT);
+    errors.set(ProductInactiveError, HTTP_STATUS_CONFLICT);
 
     // Bad request errors
-    errors.set(InvalidEmailError, HTTP_STATUS_BAD_REQUEST)
-    errors.set(InvalidCPFError, HTTP_STATUS_BAD_REQUEST)
-    errors.set(InvalidNameError, HTTP_STATUS_BAD_REQUEST)
-    errors.set(InvalidCategoryError, HTTP_STATUS_BAD_REQUEST)
-    errors.set(InvalidOrderStatusError, HTTP_STATUS_BAD_REQUEST)
+    errors.set(InvalidEmailError, HTTP_STATUS_BAD_REQUEST);
+    errors.set(InvalidCPFError, HTTP_STATUS_BAD_REQUEST);
+    errors.set(InvalidNameError, HTTP_STATUS_BAD_REQUEST);
+    errors.set(InvalidCategoryError, HTTP_STATUS_BAD_REQUEST);
+    errors.set(InvalidOrderStatusError, HTTP_STATUS_BAD_REQUEST);
 
     // Not Found
-    errors.set(RecordNotFoundError, HTTP_STATUS_NOT_FOUND)
+    errors.set(RecordNotFoundError, HTTP_STATUS_NOT_FOUND);
 
-    return errors
+    return errors;
   }
 
   static getStatusCodeFor(occurredError: Error): number {
-
-    const businessErrors = this.getBusinessErrors()
+    const businessErrors = this.getBusinessErrors();
 
     for (let knownError of businessErrors.entries()) {
-      const [errorClass, statusCode] = knownError
+      const [errorClass, statusCode] = knownError;
 
       if (occurredError instanceof errorClass) {
-        return statusCode
+        return statusCode;
       }
     }
 
-    console.error(occurredError)
+    console.error(occurredError);
 
     // Internal server error for unknown errors
-    return HTTP_INTERNAL_SERVER_ERROR
+    return HTTP_INTERNAL_SERVER_ERROR;
   }
-
 }
 
 /**
@@ -62,13 +58,11 @@ export default class APIErrorHandler {
  */
 // @ts-ignore
 export function handleAPIError(res: Response<any, any>, e: Error) {
+  const statusCode = APIErrorHandler.getStatusCodeFor(e);
 
-  const statusCode = APIErrorHandler.getStatusCodeFor(e)
-
-  res.status(statusCode)
+  res.status(statusCode);
   res.send({
     code: statusCode,
     error: e.message,
   });
-
 }

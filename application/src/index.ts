@@ -1,7 +1,5 @@
-import StartUp from "./api/startUp";
+import StartUp from "../src/api/startUp";
+import prisma from "./external/prismaClient";
 
-let port = process.env.PORT || 3000;
-
-StartUp.app.listen(port, function () {
-  console.log(`App está executando na porta ${port}`);
-});
+const prismaConnection = prisma;
+const StartUpApi = new StartUp(prismaConnection);

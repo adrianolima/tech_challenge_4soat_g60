@@ -3,7 +3,6 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as cors from "cors";
 import * as compression from "compression";
-import "../../driven/infra/ioc/container";
 import IAppRoute from "./routes/IAppRoute";
 import OrderRoute from "./routes/OrderRoute";
 import ClientRoute from "./routes/ClientRoute";
@@ -12,27 +11,22 @@ import OrderQueueRoute from "./routes/OrderQueueRoute";
 import PaymentRoute from "./routes/PaymentRoute";
 import swaggerUi = require("swagger-ui-express");
 import fs = require("fs");
+import { DbConnection } from "../interfaces/dbconnection";
 
-class StartUp {
+export default class StartUp {
+  private dbConnection: DbConnection;
+
   public app: express.Application;
 
   /* Swagger files start */
-  private swaggerFile: any =
-    process.cwd() + "/adapters/driver/api/swagger/swagger.json";
+  private swaggerFile: any = process.cwd() + "/src/api/swagger/swagger.json";
   private swaggerData: any = fs.readFileSync(this.swaggerFile, "utf8");
   private swaggerDocument = JSON.parse(this.swaggerData);
 
-  private routes: IAppRoute[] = [
-    new OrderRoute(),
-    new ClientRoute(),
-    new ProductRoute(),
-    new OrderQueueRoute(),
-    new PaymentRoute(),
-  ];
-
   /* Swagger files end */
 
-  constructor() {
+  constructor(dbConnection: DbConnection) {
+    this.dbConnection = dbConnection;
     this.app = express();
 
     this.middler();
@@ -56,7 +50,17 @@ class StartUp {
   }
 
   initRoutes() {
-    for (let route of this.routes) {
+    let routes: IAppRoute[] = [
+      new OrderRoute(this.dbConnection),
+      new ClientRoute(this.dbConnection),
+      new ProductRoute(this.dbConnection),
+      new OrderQueueRoute(this.dbConnection),
+      new PaymentRoute(this.dbConnection),
+    ];
+
+    let port = process.env.PORT || 3000;
+
+    for (let route of routes) {
       route.setup(this.app);
     }
 
@@ -69,7 +73,9 @@ class StartUp {
       swaggerUi.serve,
       swaggerUi.setup(this.swaggerDocument, null, null)
     );
+
+    this.app.listen(port, () => {
+      console.log(`App está executando na porta ${port}`);
+    });
   }
 }
-
-export default new StartUp();

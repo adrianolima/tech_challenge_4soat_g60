@@ -1,15 +1,15 @@
-import {Product} from "../../../../core/entities/product";
+import { Product } from "../../entities/product";
 
-export  type ProductResponseDto = {
-  id: number
-  name: string
-  description: string
-  category: string
-  price: number
-  active: boolean
-  created_at?: Date
-  updated_at?: Date
-}
+export type ProductResponseDto = {
+  id: number;
+  name: string;
+  description: string;
+  category: string;
+  price: number;
+  active: boolean;
+  created_at?: Date;
+  updated_at?: Date;
+};
 
 export function mapProductToResponse(product: Product): ProductResponseDto {
   return {
@@ -21,5 +21,5 @@ export function mapProductToResponse(product: Product): ProductResponseDto {
     active: product.getActive(),
     created_at: product.getCreatedAt(),
     updated_at: product.getUpdatedAt(),
-  }
+  };
 }

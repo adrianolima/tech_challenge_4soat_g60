@@ -1,33 +1,32 @@
-import {Order} from "../../../../core/entities/order";
-import {OrderItem} from "../../../../core/entities/orderItem";
-import {mapProductToResponse, ProductResponseDto} from "./product";
-import {ClientResponseDTO, mapClientToResponse} from "./client";
-import {mapPaymentToResponse, PaymentResponseDTO} from "./payment";
+import { Order } from "../../entities/order";
+import { OrderItem } from "../../entities/orderItem";
+import { mapProductToResponse, ProductResponseDto } from "./product";
+import { ClientResponseDTO, mapClientToResponse } from "./client";
+import { mapPaymentToResponse, PaymentResponseDTO } from "./payment";
 
 export type OrderItemRequest = {
   product_id: number;
   quantity: number;
-}
-
+};
 
 type OrderResponseDTO = {
-  client?: ClientResponseDTO
-  payment?: PaymentResponseDTO
-  items: OrderItemResponseDTO[]
-  id: number
-  status: string
-  total: number
-  created_at?: Date
-  updated_at?: Date
-}
+  client?: ClientResponseDTO;
+  payment?: PaymentResponseDTO;
+  items: OrderItemResponseDTO[];
+  id: number;
+  status: string;
+  total: number;
+  created_at?: Date;
+  updated_at?: Date;
+};
 
 type OrderItemResponseDTO = {
-  id: number
-  quantity: number
-  price: number
-  total: number
-  product: ProductResponseDto
-}
+  id: number;
+  quantity: number;
+  price: number;
+  total: number;
+  product: ProductResponseDto;
+};
 
 function mapOrderItemToResponse(o: OrderItem): OrderItemResponseDTO {
   return {
@@ -36,7 +35,7 @@ function mapOrderItemToResponse(o: OrderItem): OrderItemResponseDTO {
     price: o.value,
     total: o.total,
     product: mapProductToResponse(o.product),
-  }
+  };
 }
 
 export function mapOrderToResponse(o: Order): OrderResponseDTO {
@@ -49,5 +48,5 @@ export function mapOrderToResponse(o: Order): OrderResponseDTO {
     total: o.valueTotal.getValueMoney(),
     created_at: o.createdAt,
     updated_at: o.updatedAt,
-  }
+  };
 }

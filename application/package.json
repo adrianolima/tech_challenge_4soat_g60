@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "server": "node dist/adapters/driver/api/program.js",
-    "dev": "nodemon ./adapters/driver/api/program.ts",
-    "prisma-gen": "npx prisma generate",
-    "prisma-migrate": "npx prisma migrate dev --name init",
+    "dev": "nodemon ./src/index.ts",
+    "prisma-gen": "npx prisma generate --schema=./src/external/prisma/schema.prisma",
+    "prisma-migrate": "npx prisma migrate dev --name init --schema=./src/external/prisma/schema.prisma",
     "prisma-seed": "npx prisma db seed"
   },
   "prisma": {
