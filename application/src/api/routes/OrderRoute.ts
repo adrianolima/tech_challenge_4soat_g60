@@ -1,10 +1,11 @@
-import IAppRoute from "./IAppRoute";
 import * as express from "express";
-import { OrderItem } from "../../entities/orderItem";
+
+import IAppRoute from "./IAppRoute";
 import { handleAPIError } from "../error/APIErrorHandler";
 import { mapOrderToResponse, OrderItemRequest } from "../dto/order";
 import { OrderStatus } from "../../entities/valueObjects/orderStatus";
 import { DbConnection } from "../../interfaces/dbconnection";
+import { OrderController } from "../../controllers/order";
 
 export default class OrderRoute implements IAppRoute {
   private dbConnection: DbConnection;
@@ -18,8 +19,9 @@ export default class OrderRoute implements IAppRoute {
   setup(app: express.Application): void {
     app.route(this.ROUTE_BASE_PATH).get(async (req, res) => {
       try {
-        // const orders = await this.orderService.listAll();
-        // res.send(orders.map(mapOrderToResponse));
+        const orders = await OrderController.getAllOrders(this.dbConnection);
+
+        res.status(200).send(orders.map(mapOrderToResponse));
       } catch (e) {
         handleAPIError(res, e);
       }
@@ -27,10 +29,14 @@ export default class OrderRoute implements IAppRoute {
 
     app.route(`${this.ROUTE_BASE_PATH}/:id`).get(async (req, res) => {
       try {
-        // const order = await this.orderService.getOrderByID(
-        //   Number(req.params.id)
-        // );
-        // res.send(mapOrderToResponse(order));
+        const orderId = Number(req.params.id);
+
+        const order = await OrderController.getOrderById(
+          orderId,
+          this.dbConnection
+        );
+
+        res.status(200).send(mapOrderToResponse(order));
       } catch (e) {
         handleAPIError(res, e);
       }
@@ -40,11 +46,16 @@ export default class OrderRoute implements IAppRoute {
       .route(`${this.ROUTE_BASE_PATH}/link/:orderId/client/:clientId`)
       .put(async (req, res) => {
         try {
-          // const order = await this.orderService.linkToClient(
-          //   Number(req.params.orderId),
-          //   Number(req.params.clientId)
-          // );
-          // res.send(mapOrderToResponse(order));
+          const orderId = Number(req.params.orderId);
+          const clientId = Number(req.params.clientId);
+
+          const order = await OrderController.linkClientToOrder(
+            orderId,
+            clientId,
+            this.dbConnection
+          );
+
+          res.status(200).send(mapOrderToResponse(order));
         } catch (e) {
           handleAPIError(res, e);
         }
@@ -54,11 +65,16 @@ export default class OrderRoute implements IAppRoute {
       .route(`${this.ROUTE_BASE_PATH}/:orderId/status`)
       .put(async (req, res) => {
         try {
-          // const order = await this.orderService.updateOrderStatus(
-          //   Number(req.params.orderId),
-          //   new OrderStatus(req.body.status)
-          // );
-          // res.send(mapOrderToResponse(order));
+          const orderId = Number(req.params.orderId);
+          const orderStatus = new OrderStatus(req.body.status);
+
+          const order = await OrderController.updateOrder(
+            orderId,
+            orderStatus,
+            this.dbConnection
+          );
+
+          res.status(200).send(mapOrderToResponse(order));
         } catch (e) {
           handleAPIError(res, e);
         }
@@ -66,9 +82,13 @@ export default class OrderRoute implements IAppRoute {
 
     app.route(this.ROUTE_BASE_PATH).post(async (req, res) => {
       try {
-        // const items: Array<OrderItemRequest> = req.body;
-        // const order = await this.orderService.save(items);
-        // res.send(mapOrderToResponse(order));
+        const items: Array<OrderItemRequest> = req.body;
+        const order = await OrderController.createOrder(
+          items,
+          this.dbConnection
+        );
+
+        res.status(200).send(mapOrderToResponse(order));
       } catch (e) {
         handleAPIError(res, e);
       }

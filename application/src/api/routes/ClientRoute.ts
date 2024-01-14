@@ -1,10 +1,11 @@
-import IAppRoute from "./IAppRoute";
 import * as express from "express";
+
+import IAppRoute from "./IAppRoute";
 import { handleAPIError } from "../error/APIErrorHandler";
 import { DbConnection } from "../../interfaces/dbconnection";
 import { Client } from "../../entities/client";
-import { ClientController } from "../../controllers/client";
 import { CPF } from "../../entities/valueObjects/cpf";
+import { ClientController } from "../../controllers/client";
 
 export default class ClientRoute implements IAppRoute {
   private dbConnection: DbConnection;
@@ -37,7 +38,7 @@ export default class ClientRoute implements IAppRoute {
           this.dbConnection
         );
 
-        res.send(cliente);
+        res.status(200).send(cliente);
       } catch (e) {
         handleAPIError(res, e);
       }

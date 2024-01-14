@@ -1,9 +1,11 @@
-import IAppRoute from "./IAppRoute";
 import * as express from "express";
+
+import IAppRoute from "./IAppRoute";
 import { PaymentStatus } from "../../entities/valueObjects/paymentStatus";
 import { handleAPIError } from "../error/APIErrorHandler";
 import { mapPaymentToResponse } from "../dto/payment";
 import { DbConnection } from "../../interfaces/dbconnection";
+import { PaymentController } from "../../controllers/payment";
 
 export default class PaymentRoute implements IAppRoute {
   private dbConnection: DbConnection;
@@ -19,8 +21,12 @@ export default class PaymentRoute implements IAppRoute {
       const { order_id } = req.body;
 
       try {
-        // const saved = await this.paymentService.save(order_id);
-        // res.send(mapPaymentToResponse(saved));
+        const saved = await PaymentController.createPayment(
+          order_id,
+          this.dbConnection
+        );
+
+        res.status(201).send(mapPaymentToResponse(saved));
       } catch (e) {
         handleAPIError(res, e);
       }
@@ -30,11 +36,16 @@ export default class PaymentRoute implements IAppRoute {
       .route(this.ROUTE_BASE_PATH + "/:id/status/:status")
       .put(async (req, res) => {
         try {
-          // const payment = await this.paymentService.updateStatus(
-          //   Number(req.params.id),
-          //   new PaymentStatus(req.params.status)
-          // );
-          // res.send(mapPaymentToResponse(payment));
+          const paymentId = Number(req.params.id);
+          const paymentStatus = new PaymentStatus(req.params.status);
+
+          const payment = await PaymentController.updateStatus(
+            paymentId,
+            paymentStatus,
+            this.dbConnection
+          );
+
+          res.status(200).send(mapPaymentToResponse(payment));
         } catch (e) {
           handleAPIError(res, e);
         }
@@ -42,8 +53,12 @@ export default class PaymentRoute implements IAppRoute {
 
     app.route(this.ROUTE_BASE_PATH + "/process").post(async (req, res) => {
       try {
-        // await this.paymentService.processPayment(req.body.id, req.body.status);
-        // res.send("OK");
+        const id = req.body.id;
+        const status = req.body.status;
+
+        await PaymentController.processPayment(id, status, this.dbConnection);
+
+        res.status(200).send("OK");
       } catch (e) {
         handleAPIError(res, e);
       }
