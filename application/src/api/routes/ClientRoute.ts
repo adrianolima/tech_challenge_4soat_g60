@@ -2,6 +2,9 @@ import IAppRoute from "./IAppRoute";
 import * as express from "express";
 import { handleAPIError } from "../error/APIErrorHandler";
 import { DbConnection } from "../../interfaces/dbconnection";
+import { Client } from "../../entities/client";
+import { ClientController } from "../../controllers/client";
+import { CPF } from "../../entities/valueObjects/cpf";
 
 export default class ClientRoute implements IAppRoute {
   private dbConnection: DbConnection;
@@ -15,10 +18,11 @@ export default class ClientRoute implements IAppRoute {
   setup(app: express.Application): void {
     app.route(this.ROUTE_BASE_PATH).get(async (req, res) => {
       try {
-        //TODO
-        // const clientes = await this.clientService.getClients();
-        // const mappedClients = clientes.map(mapClientToResponse);
-        // res.send(mappedClients);
+        const clientes = await ClientController.getAllClients(
+          this.dbConnection
+        );
+
+        res.status(200).send(clientes);
       } catch (e) {
         handleAPIError(res, e);
       }
@@ -26,11 +30,14 @@ export default class ClientRoute implements IAppRoute {
 
     app.route(this.ROUTE_BASE_PATH + "/:cpf").get(async (req, res) => {
       try {
-        //TODO
-        // const cliente = await this.clientService.getClient(
-        //   new CPF(req.params.cpf)
-        // );
-        // res.send(mapClientToResponse(cliente));
+        const cpf = new CPF(req.params.cpf);
+
+        const cliente = await ClientController.getClientByCpf(
+          cpf,
+          this.dbConnection
+        );
+
+        res.send(cliente);
       } catch (e) {
         handleAPIError(res, e);
       }
@@ -38,17 +45,19 @@ export default class ClientRoute implements IAppRoute {
 
     app.route(this.ROUTE_BASE_PATH).post(async (req, res) => {
       try {
-        //TODO
-        // const { name, email, cpf } = req.body;
-        // const client = new Client(name, email, cpf);
-        // const savedClient = await this.clientService.save(client);
-        // res.status(201);
-        // res.send(mapClientToResponse(savedClient));
+        const { name, email, cpf } = req.body;
+
+        const client = new Client(name, email, cpf);
+
+        const savedClient = await ClientController.createClient(
+          client,
+          this.dbConnection
+        );
+
+        res.status(201).send(savedClient);
       } catch (e) {
         handleAPIError(res, e);
       }
     });
   }
-
-  // @ts-ignore
 }

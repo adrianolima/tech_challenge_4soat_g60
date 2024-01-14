@@ -2,10 +2,10 @@ import IAppRoute from "./IAppRoute";
 import { Product } from "../../entities/product";
 import { Category } from "../../entities/valueObjects/category";
 import * as express from "express";
-import { container } from "tsyringe";
 import { mapProductToResponse } from "../dto/product";
 import { handleAPIError } from "../error/APIErrorHandler";
 import { DbConnection } from "../../interfaces/dbconnection";
+import { ProductController } from "../../controllers/product";
 
 export default class ProductRoute implements IAppRoute {
   private dbConnection: DbConnection;
@@ -18,16 +18,33 @@ export default class ProductRoute implements IAppRoute {
 
   setup(app: express.Application): void {
     app.route(this.ROUTE_BASE_PATH).get(async (req, res) => {
-      // const products = await this.productService.list();
-      // res.send(products.map(mapProductToResponse));
+      try {
+        const products = await ProductController.getAllProducts(
+          this.dbConnection
+        );
+
+        res.status(200).send(products.map(mapProductToResponse));
+      } catch (e) {
+        handleAPIError(res, e);
+      }
     });
 
     app.route(this.ROUTE_BASE_PATH).post(async (req, res) => {
       try {
-        // const { name, category, description, price, active } = req.body;
-        // const product = new Product(name, category, description, price, active);
-        // const savedProduct = await this.productService.save(product);
-        // res.send(mapProductToResponse(savedProduct));
+        const { name, category, description, price, active } = req.body;
+        const newProduct = new Product(
+          name,
+          category,
+          description,
+          price,
+          active
+        );
+        const savedProduct = await ProductController.createProduct(
+          newProduct,
+          this.dbConnection
+        );
+
+        res.status(201).send(mapProductToResponse(savedProduct));
       } catch (e) {
         handleAPIError(res, e);
       }
@@ -35,11 +52,16 @@ export default class ProductRoute implements IAppRoute {
 
     app.route(this.ROUTE_BASE_PATH + "/:id").put(async (req, res) => {
       try {
-        // const { name, category, description, price, active } = req.body;
-        // const product = new Product(name, category, description, price, active);
-        // product.setId(+req.params.id);
-        // const updatedProduct = await this.productService.update(product);
-        // res.send(mapProductToResponse(updatedProduct));
+        const { name, category, description, price, active } = req.body;
+
+        const product = new Product(name, category, description, price, active);
+        product.setId(+req.params.id);
+        const updatedProduct = await ProductController.updateProduct(
+          product,
+          this.dbConnection
+        );
+
+        res.status(200).send(mapProductToResponse(updatedProduct));
       } catch (e) {
         handleAPIError(res, e);
       }
@@ -47,8 +69,11 @@ export default class ProductRoute implements IAppRoute {
 
     app.route(this.ROUTE_BASE_PATH + "/:id").delete(async (req, res) => {
       try {
-        // await this.productService.delete(+req.params.id);
-        // res.sendStatus(204);
+        await ProductController.deleteProduct(
+          +req.params.id,
+          this.dbConnection
+        );
+        res.sendStatus(204);
       } catch (e) {
         handleAPIError(res, e);
       }
@@ -56,12 +81,17 @@ export default class ProductRoute implements IAppRoute {
 
     app.route(this.ROUTE_BASE_PATH + "/:category").get(async (req, res) => {
       try {
-        // const category = new Category(
-        //   req.params.category.charAt(0).toUpperCase() +
-        //     req.params.category.slice(1)
-        // );
-        // const products = await this.productService.listByCategory(category);
-        // res.send(products.map(mapProductToResponse));
+        const category = new Category(
+          req.params.category.charAt(0).toUpperCase() +
+            req.params.category.slice(1)
+        );
+
+        const products = await ProductController.getAllProductsByCategory(
+          category,
+          this.dbConnection
+        );
+
+        res.status(200).send(products.map(mapProductToResponse));
       } catch (e) {
         handleAPIError(res, e);
       }
