@@ -2,7 +2,7 @@ import * as express from "express";
 
 import IAppRoute from "./IAppRoute";
 import { handleAPIError } from "../error/APIErrorHandler";
-import { mapOrderToResponse, OrderItemRequest } from "../dto/order";
+import { OrderItemRequest } from "../dto/order";
 import { OrderStatus } from "../../entities/valueObjects/orderStatus";
 import { DbConnection } from "../../interfaces/dbconnection";
 import { OrderController } from "../../controllers/order";
@@ -14,14 +14,14 @@ export default class OrderRoute implements IAppRoute {
     this.dbConnection = dbConnection;
   }
 
-  private ROUTE_BASE_PATH = "/api/order";
+  private ROUTE_BASE_PATH = "/api/orders";
 
   setup(app: express.Application): void {
     app.route(this.ROUTE_BASE_PATH).get(async (req, res) => {
       try {
         const orders = await OrderController.getAllOrders(this.dbConnection);
 
-        res.status(200).send(orders.map(mapOrderToResponse));
+        res.status(200).send(orders);
       } catch (e) {
         handleAPIError(res, e);
       }
@@ -36,7 +36,7 @@ export default class OrderRoute implements IAppRoute {
           this.dbConnection
         );
 
-        res.status(200).send(mapOrderToResponse(order));
+        res.status(200).send(order);
       } catch (e) {
         handleAPIError(res, e);
       }
@@ -55,7 +55,7 @@ export default class OrderRoute implements IAppRoute {
             this.dbConnection
           );
 
-          res.status(200).send(mapOrderToResponse(order));
+          res.status(200).send(order);
         } catch (e) {
           handleAPIError(res, e);
         }
@@ -74,7 +74,7 @@ export default class OrderRoute implements IAppRoute {
             this.dbConnection
           );
 
-          res.status(200).send(mapOrderToResponse(order));
+          res.status(200).send(order);
         } catch (e) {
           handleAPIError(res, e);
         }
@@ -88,7 +88,7 @@ export default class OrderRoute implements IAppRoute {
           this.dbConnection
         );
 
-        res.status(200).send(mapOrderToResponse(order));
+        res.status(200).send(order);
       } catch (e) {
         handleAPIError(res, e);
       }

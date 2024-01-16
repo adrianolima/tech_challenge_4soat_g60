@@ -1,7 +1,6 @@
 import * as express from "express";
 
 import IAppRoute from "./IAppRoute";
-import { mapOrderToResponse } from "../dto/order";
 import { DbConnection } from "../../interfaces/dbconnection";
 import { OrderQueueController } from "../../controllers/queue";
 import { handleAPIError } from "../error/APIErrorHandler";
@@ -13,7 +12,7 @@ export default class OrderQueueRoute implements IAppRoute {
     this.dbConnection = dbConnection;
   }
 
-  private ROUTE_BASE_PATH = "/api/order/queue";
+  private ROUTE_BASE_PATH = "/api/orders/queue";
 
   setup(app: express.Application): void {
     app.route(`${this.ROUTE_BASE_PATH}/pending`).get(async (req, res) => {
@@ -22,7 +21,7 @@ export default class OrderQueueRoute implements IAppRoute {
           this.dbConnection
         );
 
-        res.status(200).send(orders.map(mapOrderToResponse));
+        res.status(200).send(orders);
       } catch (e) {
         handleAPIError(res, e);
       }
@@ -34,7 +33,7 @@ export default class OrderQueueRoute implements IAppRoute {
           this.dbConnection
         );
 
-        res.status(200).send(orders.map(mapOrderToResponse));
+        res.status(200).send(orders);
       } catch (e) {
         handleAPIError(res, e);
       }
@@ -46,7 +45,7 @@ export default class OrderQueueRoute implements IAppRoute {
           this.dbConnection
         );
 
-        res.status(200).send(orders.map(mapOrderToResponse));
+        res.status(200).send(orders);
       } catch (e) {
         handleAPIError(res, e);
       }

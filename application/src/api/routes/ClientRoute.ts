@@ -10,7 +10,7 @@ import { ClientController } from "../../controllers/client";
 export default class ClientRoute implements IAppRoute {
   private dbConnection: DbConnection;
 
-  protected ROUTE_BASE_PATH = "/api/client";
+  protected ROUTE_BASE_PATH = "/api/clients";
 
   constructor(dbConnection: DbConnection) {
     this.dbConnection = dbConnection;

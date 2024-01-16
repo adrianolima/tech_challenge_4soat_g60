@@ -1,3 +1,4 @@
+import { ProductAdapter } from "../adapters/product";
 import { Product } from "../entities/product";
 import { Category } from "../entities/valueObjects/category";
 import { ProductGateway } from "../gateways/products";
@@ -9,7 +10,8 @@ export class ProductController {
     const productGateway = new ProductGateway(dbConnection);
     const allProducts = await ProductUseCases.list(productGateway);
 
-    return allProducts;
+    const adapted = ProductAdapter.adaptProducts(allProducts);
+    return adapted;
   }
 
   static async getAllProductsByCategory(
@@ -22,14 +24,16 @@ export class ProductController {
       productGateway
     );
 
-    return allProductsByCategory;
+    const adapted = ProductAdapter.adaptProducts(allProductsByCategory);
+    return adapted;
   }
 
   static async createProduct(product: Product, dbConnection: DbConnection) {
     const productGateway = new ProductGateway(dbConnection);
-    const dbResult = ProductUseCases.save(product, productGateway);
+    const newProduct = await ProductUseCases.save(product, productGateway);
 
-    return dbResult;
+    const adapted = ProductAdapter.adaptProduct(newProduct);
+    return adapted;
   }
 
   static async updateProduct(product: Product, dbConnection: DbConnection) {
@@ -40,7 +44,8 @@ export class ProductController {
       productGateway
     );
 
-    return updatedProduct;
+    const adapted = ProductAdapter.adaptProduct(updatedProduct);
+    return adapted;
   }
 
   static async deleteProduct(productId: number, dbConnection: DbConnection) {

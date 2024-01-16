@@ -1,3 +1,4 @@
+import { OrderAdapter } from "../adapters/order";
 import { OrderGateway } from "../gateways/orders";
 import { DbConnection } from "../interfaces/dbconnection";
 import { OrderQueueUseCases } from "../usecases/queue";
@@ -7,7 +8,8 @@ export class OrderQueueController {
     const orderQueueGateway = new OrderGateway(dbConnection);
     const orders = await OrderQueueUseCases.getPendingOrders(orderQueueGateway);
 
-    return orders;
+    const adapted = OrderAdapter.adaptOrders(orders);
+    return adapted;
   }
 
   static async getOrdersWithStatusPreparing(dbConnection: DbConnection) {
@@ -16,7 +18,8 @@ export class OrderQueueController {
       orderQueueGateway
     );
 
-    return orders;
+    const adapted = OrderAdapter.adaptOrders(orders);
+    return adapted;
   }
 
   static async getOrdersWithStatusPrepared(dbConnection: DbConnection) {
@@ -25,6 +28,7 @@ export class OrderQueueController {
       orderQueueGateway
     );
 
-    return orders;
+    const adapted = OrderAdapter.adaptOrders(orders);
+    return adapted;
   }
 }

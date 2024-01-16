@@ -1,3 +1,4 @@
+import { PaymentAdapter } from "../adapters/payment";
 import { PaymentStatus } from "../entities/valueObjects/paymentStatus";
 import { PaymentGatewayGateway } from "../gateways/gateway";
 import { OrderGateway } from "../gateways/orders";
@@ -18,7 +19,8 @@ export class PaymentController {
       paymentGateway
     );
 
-    return payment;
+    const adapted = PaymentAdapter.adaptPayment(payment);
+    return adapted;
   }
 
   static async processPayment(
@@ -36,7 +38,8 @@ export class PaymentController {
       orderGateway
     );
 
-    return payment;
+    const adapted = PaymentAdapter.adaptPayment(payment);
+    return adapted;
   }
 
   static async updateStatus(
@@ -54,6 +57,7 @@ export class PaymentController {
       orderGateway
     );
 
-    return payment;
+    const adapted = PaymentAdapter.adaptPayment(payment);
+    return adapted;
   }
 }

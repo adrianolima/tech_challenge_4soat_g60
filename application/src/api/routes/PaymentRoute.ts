@@ -3,14 +3,13 @@ import * as express from "express";
 import IAppRoute from "./IAppRoute";
 import { PaymentStatus } from "../../entities/valueObjects/paymentStatus";
 import { handleAPIError } from "../error/APIErrorHandler";
-import { mapPaymentToResponse } from "../dto/payment";
 import { DbConnection } from "../../interfaces/dbconnection";
 import { PaymentController } from "../../controllers/payment";
 
 export default class PaymentRoute implements IAppRoute {
   private dbConnection: DbConnection;
 
-  protected ROUTE_BASE_PATH = "/api/payment";
+  protected ROUTE_BASE_PATH = "/api/payments";
 
   constructor(dbConnection: DbConnection) {
     this.dbConnection = dbConnection;
@@ -26,7 +25,7 @@ export default class PaymentRoute implements IAppRoute {
           this.dbConnection
         );
 
-        res.status(201).send(mapPaymentToResponse(saved));
+        res.status(201).send(saved);
       } catch (e) {
         handleAPIError(res, e);
       }
@@ -45,7 +44,7 @@ export default class PaymentRoute implements IAppRoute {
             this.dbConnection
           );
 
-          res.status(200).send(mapPaymentToResponse(payment));
+          res.status(200).send(payment);
         } catch (e) {
           handleAPIError(res, e);
         }

@@ -3,7 +3,6 @@ import * as express from "express";
 import IAppRoute from "./IAppRoute";
 import { Product } from "../../entities/product";
 import { Category } from "../../entities/valueObjects/category";
-import { mapProductToResponse } from "../dto/product";
 import { handleAPIError } from "../error/APIErrorHandler";
 import { DbConnection } from "../../interfaces/dbconnection";
 import { ProductController } from "../../controllers/product";
@@ -24,7 +23,7 @@ export default class ProductRoute implements IAppRoute {
           this.dbConnection
         );
 
-        res.status(200).send(products.map(mapProductToResponse));
+        res.status(200).send(products);
       } catch (e) {
         handleAPIError(res, e);
       }
@@ -45,7 +44,7 @@ export default class ProductRoute implements IAppRoute {
           this.dbConnection
         );
 
-        res.status(201).send(mapProductToResponse(savedProduct));
+        res.status(201).send(savedProduct);
       } catch (e) {
         handleAPIError(res, e);
       }
@@ -62,7 +61,7 @@ export default class ProductRoute implements IAppRoute {
           this.dbConnection
         );
 
-        res.status(200).send(mapProductToResponse(updatedProduct));
+        res.status(200).send(updatedProduct);
       } catch (e) {
         handleAPIError(res, e);
       }
@@ -74,6 +73,7 @@ export default class ProductRoute implements IAppRoute {
           +req.params.id,
           this.dbConnection
         );
+
         res.sendStatus(204);
       } catch (e) {
         handleAPIError(res, e);
@@ -92,7 +92,7 @@ export default class ProductRoute implements IAppRoute {
           this.dbConnection
         );
 
-        res.status(200).send(products.map(mapProductToResponse));
+        res.status(200).send(products);
       } catch (e) {
         handleAPIError(res, e);
       }

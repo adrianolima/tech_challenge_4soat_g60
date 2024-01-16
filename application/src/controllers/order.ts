@@ -1,3 +1,4 @@
+import { OrderAdapter } from "../adapters/order";
 import { OrderGateway } from "../gateways/orders";
 import { ProductGateway } from "../gateways/products";
 import { OrderUseCases } from "../usecases/order";
@@ -7,14 +8,16 @@ export class OrderController {
     const orderGateway = new OrderGateway(dbConnection);
     const allOrders = await OrderUseCases.listAll(orderGateway);
 
-    return allOrders;
+    const adapted = OrderAdapter.adaptOrders(allOrders);
+    return adapted;
   }
 
   static async getOrderById(orderId, dbConnection) {
     const orderGateway = new OrderGateway(dbConnection);
     const order = await OrderUseCases.getOrderByID(orderId, orderGateway);
 
-    return order;
+    const adapted = OrderAdapter.adaptOrder(order);
+    return adapted;
   }
 
   static async linkClientToOrder(orderId, clientId, dbConnection) {
@@ -25,7 +28,8 @@ export class OrderController {
       clientId
     );
 
-    return order;
+    const adapted = OrderAdapter.adaptOrder(order);
+    return adapted;
   }
 
   static async createOrder(order, dbConnection) {
@@ -38,7 +42,8 @@ export class OrderController {
       productGateway
     );
 
-    return newOrder;
+    const adapted = OrderAdapter.adaptOrder(newOrder);
+    return adapted;
   }
 
   static async updateOrder(orderId, status, dbConnection) {
@@ -49,6 +54,7 @@ export class OrderController {
       orderGateway
     );
 
-    return order;
+    const adapted = OrderAdapter.adaptOrder(order);
+    return adapted;
   }
 }
