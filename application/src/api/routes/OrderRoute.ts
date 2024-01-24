@@ -3,7 +3,7 @@ import * as express from "express";
 import IAppRoute from "./IAppRoute";
 import { handleAPIError } from "../error/APIErrorHandler";
 import { OrderItemRequest } from "../dto/order";
-import { OrderStatus } from "../../entities/valueObjects/orderStatus";
+import { OrderStatus } from "../../domain/value_object/orderStatus";
 import { DbConnection } from "../../interfaces/dbconnection";
 import { OrderController } from "../../controllers/order";
 

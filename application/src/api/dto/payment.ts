@@ -1,4 +1,4 @@
-import { Payment } from "../../entities/payment";
+import { Payment } from "../../domain/entities/payment";
 
 export type PaymentResponseDTO = {
   id: number;

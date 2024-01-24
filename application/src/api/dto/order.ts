@@ -1,5 +1,5 @@
-import { Order } from "../../entities/order";
-import { OrderItem } from "../../entities/orderItem";
+import { Order } from "../../domain/entities/order";
+import { OrderItem } from "../../domain/entities/orderItem";
 import { mapProductToResponse, ProductResponseDto } from "./product";
 import { ClientResponseDTO, mapClientToResponse } from "./client";
 import { mapPaymentToResponse, PaymentResponseDTO } from "./payment";

@@ -1,12 +1,12 @@
-import { Client } from "../entities/client";
-import { Order } from "../entities/order";
-import { Payment } from "../entities/payment";
-import { Product } from "../entities/product";
-import { Category } from "../entities/valueObjects/category";
-import { CPF } from "../entities/valueObjects/cpf";
-import { OrderStatus } from "../entities/valueObjects/orderStatus";
-import { PaymentGatewayResponse } from "../entities/valueObjects/paymentGatewayResponse";
-import { PaymentStatus } from "../entities/valueObjects/paymentStatus";
+import { Client } from "../domain/entities/client";
+import { Order } from "../domain/entities/order";
+import { Payment } from "../domain/entities/payment";
+import { Product } from "../domain/entities/product";
+import { Category } from "../domain/value_object/category";
+import { CPF } from "../domain/value_object/cpf";
+import { OrderStatus } from "../domain/value_object/orderStatus";
+import { PaymentGatewayResponse } from "../domain/value_object/paymentGatewayResponse";
+import { PaymentStatus } from "../domain/value_object/paymentStatus";
 
 export interface IClientGateway {
   getClient(cpf: CPF): Promise<Client | undefined>;
@@ -23,7 +23,7 @@ export interface IOrderGateway {
   getOrderByStatus(order: OrderStatus): Promise<Array<Order>>;
 }
 
-export interface IPaymentGatewayGateway {
+export interface IPaymentGatewayService {
   create(): Promise<PaymentGatewayResponse>;
 }
 

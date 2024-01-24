@@ -1,7 +1,7 @@
-import { OrderAdapter } from "../adapters/order";
-import { OrderGateway } from "../gateways/orders";
+import { OrderAdapter } from "./presenter/order";
+import { OrderGateway } from "../gateways/repositories/orders";
 import { DbConnection } from "../interfaces/dbconnection";
-import { OrderQueueUseCases } from "../usecases/queue";
+import { OrderQueueUseCases } from "../domain/usecases/queue";
 
 export class OrderQueueController {
   static async getOrdersWithStatusPending(dbConnection: DbConnection) {

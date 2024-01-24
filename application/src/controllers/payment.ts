@@ -1,10 +1,10 @@
-import { PaymentAdapter } from "../adapters/payment";
-import { PaymentStatus } from "../entities/valueObjects/paymentStatus";
-import { PaymentGatewayGateway } from "../gateways/gateway";
-import { OrderGateway } from "../gateways/orders";
-import { PaymentGateway } from "../gateways/payments";
+import { PaymentAdapter } from "./presenter/payment";
+import { PaymentStatus } from "../domain/value_object/paymentStatus";
+import { PaymentGatewayGateway } from "../gateways/services/gateway";
+import { OrderGateway } from "../gateways/repositories/orders";
+import { PaymentGateway } from "../gateways/repositories/payments";
 import { DbConnection } from "../interfaces/dbconnection";
-import { PaymentUseCases } from "../usecases/payment";
+import { PaymentUseCases } from "../domain/usecases/payment";
 
 export class PaymentController {
   static async createPayment(orderId: number, dbConnection: DbConnection) {

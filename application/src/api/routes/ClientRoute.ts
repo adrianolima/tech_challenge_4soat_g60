@@ -3,8 +3,8 @@ import * as express from "express";
 import IAppRoute from "./IAppRoute";
 import { handleAPIError } from "../error/APIErrorHandler";
 import { DbConnection } from "../../interfaces/dbconnection";
-import { Client } from "../../entities/client";
-import { CPF } from "../../entities/valueObjects/cpf";
+import { Client } from "../../domain/entities/client";
+import { CPF } from "../../domain/value_object/cpf";
 import { ClientController } from "../../controllers/client";
 
 export default class ClientRoute implements IAppRoute {

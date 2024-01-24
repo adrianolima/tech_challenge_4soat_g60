@@ -1,9 +1,9 @@
-import { ProductAdapter } from "../adapters/product";
-import { Product } from "../entities/product";
-import { Category } from "../entities/valueObjects/category";
-import { ProductGateway } from "../gateways/products";
+import { ProductAdapter } from "./presenter/product";
+import { Product } from "../domain/entities/product";
+import { Category } from "../domain/value_object/category";
+import { ProductGateway } from "../gateways/repositories/products";
 import { DbConnection } from "../interfaces/dbconnection";
-import { ProductUseCases } from "../usecases/product";
+import { ProductUseCases } from "../domain/usecases/product";
 
 export class ProductController {
   static async getAllProducts(dbConnection: DbConnection) {

@@ -1,9 +1,9 @@
-import { ClientAdapter } from "../adapters/client";
-import { Client } from "../entities/client";
-import { CPF } from "../entities/valueObjects/cpf";
-import { ClientGateway } from "../gateways/clients";
+import { ClientAdapter } from "./presenter/client";
+import { Client } from "../domain/entities/client";
+import { CPF } from "../domain/value_object/cpf";
+import { ClientGateway } from "../gateways/repositories/clients";
 import { DbConnection } from "../interfaces/dbconnection";
-import { ClientUseCases } from "../usecases/client";
+import { ClientUseCases } from "../domain/usecases/client";
 
 export class ClientController {
   static async getAllClients(dbConnection: DbConnection) {

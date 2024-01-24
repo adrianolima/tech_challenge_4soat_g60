@@ -1,0 +1,123 @@
+import { Order } from "../entities/order";
+import RecordNotFoundError from "../error/RecordNotFoundError";
+import { Client } from "../entities/client";
+import { OrderStatus } from "../value_object/orderStatus";
+import { OrderItem } from "../entities/orderItem";
+import { Payment } from "../entities/payment";
+import { PaymentStatus } from "../value_object/paymentStatus";
+import { OrderItemRequest } from "../../api/dto/order";
+import ProductInactiveError from "../error/ProductInactiveError";
+import {
+  IClientGateway,
+  IOrderGateway,
+  IProductGateway,
+} from "../../interfaces/gateways";
+
+export class OrderUseCases {
+  static async save(
+    requestItems: Array<OrderItemRequest>,
+    orderGateway: IOrderGateway,
+    productGateway: IProductGateway
+  ): Promise<Order> {
+    // Find all related products
+    const products = await productGateway.getProductByIDs(
+      requestItems.map((v) => v.product_id)
+    );
+
+    // Create the OrderItems list
+    const items = requestItems.map((ri) => {
+      const product = products.find((p) => p.getId() === ri.product_id);
+
+      if (!product) {
+        throw new RecordNotFoundError(
+          `Nenhum produto foi encontrado pelo ID fornecido: ${ri.product_id}`
+        );
+      }
+
+      if (!product.getActive()) {
+        throw new ProductInactiveError(
+          `O produto requisitado está indisponível: "${product.getName()}"`
+        );
+      }
+
+      return new OrderItem(product, ri.quantity);
+    });
+
+    const order = new Order(items);
+
+    return await orderGateway.save(order);
+  }
+
+  static async updatePayment(
+    orderId: number,
+    payment: Payment,
+    orderGateway: IOrderGateway
+  ): Promise<Order> {
+    const order = await orderGateway.getOrderByID(orderId);
+    order.setPayment(payment);
+    order.setStatus(this.getOrderStatusByPayment(payment));
+
+    return await orderGateway.update(order);
+  }
+
+  private static getOrderStatusByPayment(payment: Payment): OrderStatus {
+    switch (payment.status.value()) {
+      case PaymentStatus.PAGO:
+        return OrderStatus.AGUARDANDO_PREPARO;
+      default:
+        return OrderStatus.AGUARDANDO_PAGAMENTO;
+    }
+  }
+
+  static async getOrderByID(
+    id: number,
+    orderGateway: IOrderGateway
+  ): Promise<Order> {
+    const order: Order = await orderGateway.getOrderByID(id);
+
+    if (order == null) {
+      throw new RecordNotFoundError(
+        `Nenhum pedido foi encontrado pelo ID fornecido (${id})`
+      );
+    }
+
+    return order;
+  }
+
+  static async updateOrderStatus(
+    orderID: number,
+    status: OrderStatus,
+    orderGateway: IOrderGateway
+  ): Promise<Order> {
+    // TODO: add some validations depending on actual status
+    const order: Order = await orderGateway.getOrderByID(orderID);
+
+    order.setStatus(status);
+
+    return await orderGateway.update(order);
+  }
+
+  static async linkToClient(
+    orderId: number,
+    orderGateway: IOrderGateway,
+    clientGateway: IClientGateway,
+    clientId?: number
+  ): Promise<Order> {
+    const order: Order = await orderGateway.getOrderByID(orderId);
+
+    let client: Client = null;
+
+    if (clientId != null) {
+      client = await clientGateway.getClientByID(clientId);
+    }
+
+    order.setClient(client);
+    order.setStatus(OrderStatus.AGUARDANDO_PAGAMENTO);
+
+    return await orderGateway.update(order);
+  }
+
+  static async listAll(orderGateway: IOrderGateway): Promise<Array<Order>> {
+    return orderGateway.getOrders();
+  }
+}

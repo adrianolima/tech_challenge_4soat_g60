@@ -1,13 +1,13 @@
 import { Class } from "type-fest";
-import CPFExistsError from "../../entities/errors/CPFExistsError";
-import EmailExistsError from "../../entities/errors/EmailExistsError";
-import { InvalidEmailError } from "../../entities/errors/InvalidEmailError";
-import { InvalidCPFError } from "../../entities/errors/InvalidCPFError";
-import { InvalidNameError } from "../../entities/errors/InvalidNameError";
-import RecordNotFoundError from "../../entities/errors/RecordNotFoundError";
-import InvalidCategoryError from "../../entities/errors/InvalidCategoryError";
-import InvalidOrderStatusError from "../../entities/errors/InvalidOrderStatusError";
-import ProductInactiveError from "../../entities/errors/ProductInactiveError";
+import CPFExistsError from "../../domain/error/CPFExistsError";
+import EmailExistsError from "../../domain/error/EmailExistsError";
+import { InvalidEmailError } from "../../domain/error/InvalidEmailError";
+import { InvalidCPFError } from "../../domain/error/InvalidCPFError";
+import { InvalidNameError } from "../../domain/error/InvalidNameError";
+import RecordNotFoundError from "../../domain/error/RecordNotFoundError";
+import InvalidCategoryError from "../../domain/error/InvalidCategoryError";
+import InvalidOrderStatusError from "../../domain/error/InvalidOrderStatusError";
+import ProductInactiveError from "../../domain/error/ProductInactiveError";
 
 const HTTP_STATUS_BAD_REQUEST = 400;
 const HTTP_STATUS_CONFLICT = 409;

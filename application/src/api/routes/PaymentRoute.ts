@@ -1,7 +1,7 @@
 import * as express from "express";
 
 import IAppRoute from "./IAppRoute";
-import { PaymentStatus } from "../../entities/valueObjects/paymentStatus";
+import { PaymentStatus } from "../../domain/value_object/paymentStatus";
 import { handleAPIError } from "../error/APIErrorHandler";
 import { DbConnection } from "../../interfaces/dbconnection";
 import { PaymentController } from "../../controllers/payment";

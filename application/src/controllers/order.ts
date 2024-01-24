@@ -1,7 +1,7 @@
-import { OrderAdapter } from "../adapters/order";
-import { OrderGateway } from "../gateways/orders";
-import { ProductGateway } from "../gateways/products";
-import { OrderUseCases } from "../usecases/order";
+import { OrderAdapter } from "./presenter/order";
+import { OrderGateway } from "../gateways/repositories/orders";
+import { ProductGateway } from "../gateways/repositories/products";
+import { OrderUseCases } from "../domain/usecases/order";
 
 export class OrderController {
   static async getAllOrders(dbConnection) {

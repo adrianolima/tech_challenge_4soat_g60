@@ -1,8 +1,8 @@
 import * as express from "express";
 
 import IAppRoute from "./IAppRoute";
-import { Product } from "../../entities/product";
-import { Category } from "../../entities/valueObjects/category";
+import { Product } from "../../domain/entities/product";
+import { Category } from "../../domain/value_object/category";
 import { handleAPIError } from "../error/APIErrorHandler";
 import { DbConnection } from "../../interfaces/dbconnection";
 import { ProductController } from "../../controllers/product";
