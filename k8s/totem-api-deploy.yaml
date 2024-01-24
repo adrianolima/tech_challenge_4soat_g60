@@ -1,15 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    run: totem-api
-    app: totem-api
   name: totem-api
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
-      run: totem-api
+      app: totem-api
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -18,7 +15,7 @@ spec:
   template:
     metadata:
       labels:
-        run: totem-api
+        app: totem-api
     spec:
       containers:
       - name: totem-api
