@@ -1,15 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    run: totem-postgres
-    app: totem-postgres
   name: totem-postgres
 spec:
   replicas: 1
   selector:
     matchLabels:
-      run: totem-postgres
+      app: totem-postgres
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -18,7 +15,7 @@ spec:
   template:
     metadata:
       labels:
-        run: totem-postgres
+        app: totem-postgres
     spec:
       volumes:
       - name: totem-postgres
