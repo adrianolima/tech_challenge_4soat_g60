@@ -23,17 +23,17 @@ spec:
         - configMapRef:
        # - secretRef:
             name: totem-configmap
-        image: adrianoelima/tech_challenge_4soat_g60:1.0.1
+        image: adrianoelima/tech_challenge_4soat_g60:1.0.4
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
         resources:
           limits:
             cpu: 500m
-            memory: 2Gi
+            memory: 512Mi
           requests:
             cpu: 100m
-            memory: 256Mi
+            memory: 512Mi
         workingDir: /var/www
       imagePullSecrets:
       - name: dockerhub
