@@ -23,7 +23,7 @@ spec:
         - configMapRef:
        # - secretRef:
             name: totem-configmap
-        image: adrianoelima/tech_challenge_4soat_g60:1.0.4
+        image: adrianoelima/tech_challenge_4soat_g60:1.0.5
         imagePullPolicy: Always
         ports:
         - containerPort: 3000

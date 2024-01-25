@@ -7,19 +7,42 @@ API criada para o tech challenge da Pós Tech FIAP do curso de Arquitetura de So
 Para iniciar esse projeto, após clonar rode no terminal:
 
 ```bash
-  cd docker/bin
+  cd k8s
 ```
 
-dentro da pasta /bin rode no terminal:
+dentro da pasta /k8s rode no terminal:
 
 ```bash
-  ./setup.sh
+  kubectl apply -f .
 ```
 
-Após rodar o setup insira no terminal:
+Acompanhar o status da criação dos PODS
 
 ```bash
-  ./seeder.sh
+kubectl get pods
+```
+Após todos os pods estarem com o status "Running" pegar qualquer pod da api e executar o seguinte comando para gerar as tabelas da aplicação:
+
+```bash
+  kubectl exec -it POD_API --  sh /var/bin/migration.sh
+```
+
+Após finalizar a criação das tabelas podemos fazer o carregamento inicial da base de dados.
+#### OBS: Este passo é opcional
+
+Pegar o pod do postgres
+
+```bash
+kubectl get pods
+```
+Copiar arquivo de seed para o pod
+
+```bash
+kubectl cp seeder.sql POD_POSTGRES:/tmp
+```
+Executar o seed
+```bash
+kubectl exec -it POD_POSTGRES --  psql -U totem -d totem -f /tmp/seeder.sql
 ```
 
 ## Funcionalidades

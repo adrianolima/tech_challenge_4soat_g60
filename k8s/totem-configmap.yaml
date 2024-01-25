@@ -3,8 +3,9 @@ kind: ConfigMap
 metadata:
   name: totem-configmap
 data:
-  POSTGRES_PASSWORD: totem
   POSTGRES_USER: totem
   POSTGRES_DB: totem
   PGDATA: /application/postgres
   POSTGRES_HOST_AUTH_METHOD: trust
+  DATABASE_URL: "postgresql://totem:totem@totem-postgres:5432/totem"
+  PORT: "3000"

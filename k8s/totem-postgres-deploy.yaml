@@ -25,10 +25,9 @@ spec:
       - name: totem-postgres
         envFrom:
         - configMapRef:
-       # - secretRef:
             name: totem-configmap
-#        - secretRef:
-#            name: totem-postgres
+        - secretRef:
+            name: totem-postgres
         image: postgres:16.0
         imagePullPolicy: Always
         workingDir: /application
@@ -45,17 +44,6 @@ spec:
           requests:
             cpu: 100m
             memory: 512Mi
-        env:
-        - name: POSTGRES_PASSWORD
-          value: totem
-        - name: POSTGRES_USER
-          value: totem
-        - name: POSTGRES_DB
-          value: totem
-        - name: PGDATA
-          value: /application/postgres
-        - name: POSTGRES_HOST_AUTH_METHOD
-          value: trust
       imagePullSecrets:
       - name: dockerhub
       restartPolicy: Always
