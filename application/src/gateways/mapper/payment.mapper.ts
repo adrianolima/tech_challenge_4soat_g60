@@ -1,8 +1,8 @@
-import {Payment} from "../../domain/entities/payment";
-import {PaymentStatus} from "../../domain/value_object/paymentStatus";
+import { Payment } from "../../domain/entities/payment";
+import { PaymentStatus } from "../../domain/value_object/paymentStatus";
 import PaymentModel from "../model/payment.model";
 
-export class PaymentModelMapper {
+export default class PaymentModelMapper {
   static map(input: PaymentModel): Payment {
     return Payment.New(
       input.id,

@@ -1,4 +1,4 @@
-import {Prisma} from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 export default interface PaymentModel {
   id: number;
@@ -10,4 +10,4 @@ export default interface PaymentModel {
   paid_at?: Date;
   created_at?: Date;
   updated_at?: Date;
-};
+}

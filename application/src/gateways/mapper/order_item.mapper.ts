@@ -1,8 +1,8 @@
-import {OrderItem} from "../../domain/entities/orderItem";
-import {ProductMapper} from "../repositories/products";
-import {OrderItemModel} from "../model/order_item.model";
+import { OrderItem } from "../../domain/entities/orderItem";
+import OrderItemModel from "../model/order_item.model";
+import ProductMapper from "./product.mapper";
 
-export class OrderItemModelMapper {
+export default class OrderItemModelMapper {
   static map(d: OrderItemModel): OrderItem {
     return OrderItem.New(
       d.id,

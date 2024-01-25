@@ -1,4 +1,4 @@
-import {Prisma} from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import ProductModel from "./product.model";
 
 export default interface OrderItemModel {

@@ -21,6 +21,7 @@ Acompanhar o status da criação dos PODS
 ```bash
 kubectl get pods
 ```
+
 Após todos os pods estarem com o status "Running" pegar qualquer pod da api e executar o seguinte comando para gerar as tabelas da aplicação:
 
 ```bash
@@ -28,6 +29,7 @@ Após todos os pods estarem com o status "Running" pegar qualquer pod da api e e
 ```
 
 Após finalizar a criação das tabelas podemos fazer o carregamento inicial da base de dados.
+
 #### OBS: Este passo é opcional
 
 Pegar o pod do postgres
@@ -35,12 +37,15 @@ Pegar o pod do postgres
 ```bash
 kubectl get pods
 ```
+
 Copiar arquivo de seed para o pod
 
 ```bash
 kubectl cp seeder.sql POD_POSTGRES:/tmp
 ```
+
 Executar o seed
+
 ```bash
 kubectl exec -it POD_POSTGRES --  psql -U totem -d totem -f /tmp/seeder.sql
 ```
@@ -77,7 +82,7 @@ kubectl exec -it POD_POSTGRES --  psql -U totem -d totem -f /tmp/seeder.sql
 
 ## Postman
 
-[Postman](https://documenter.getpostman.com/view/18248829/2s9YXcdkDW)
+[Postman](https://elements.getpostman.com/redirect?entityId=26331161-07de13c2-3c77-4e02-851d-1d35a173d086&entityType=collection)
 
 ## Miro
 

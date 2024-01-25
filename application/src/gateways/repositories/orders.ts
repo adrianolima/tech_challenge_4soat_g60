@@ -1,10 +1,9 @@
-import {Order} from "../../domain/entities/order";
-import {OrderStatus} from "../../domain/value_object/orderStatus";
-import {IOrderGateway} from "../../interfaces/gateways";
-import {DbConnection} from "../../interfaces/dbconnection";
-import {OrderModelMapper} from "../mapper/order.mapper";
+import { Order } from "../../domain/entities/order";
+import { OrderStatus } from "../../domain/value_object/orderStatus";
+import { IOrderGateway } from "../../interfaces/gateways";
+import { DbConnection } from "../../interfaces/dbconnection";
+import OrderModelMapper from "../mapper/order.mapper";
 import OrderModel from "../model/order.model";
-
 
 export class OrderGateway implements IOrderGateway {
   private repositoryData: DbConnection;
@@ -38,6 +37,24 @@ export class OrderGateway implements IOrderGateway {
       },
     });
     return dados.map(OrderModelMapper.map);
+  }
+
+  async getOrdersOrderned(): Promise<Array<Order>> {
+    const dados: any = await this.repositoryData.$queryRaw`
+      SELECT *
+      FROM orders
+      WHERE status IN ('Aguardando Preparo', 'Em preparação', 'Pronto', 'Criado', 'Aguardando Pagamento')
+      ORDER BY
+        CASE
+          WHEN status = 'Pronto' THEN 1
+          WHEN status = 'Em preparação' THEN 2
+          WHEN status = 'Aguardando Preparo' THEN 3
+          ELSE 4
+        END,
+        created_at ASC; 
+      `;
+
+    return dados;
   }
 
   async save(o: Order): Promise<Order> {

@@ -1,15 +1,14 @@
-import {Client} from "../../domain/entities/client";
-import {CPF} from "../../domain/value_object/cpf";
+import { Client } from "../../domain/entities/client";
+import { CPF } from "../../domain/value_object/cpf";
 import CPFExistsError from "../../domain/error/CPFExistsError";
 import EmailExistsError from "../../domain/error/EmailExistsError";
-import {IClientGateway} from "../../interfaces/gateways";
-import {DbConnection} from "../../interfaces/dbconnection";
-import {ClientModelMapper} from "../mapper/client.mapper";
+import { IClientGateway } from "../../interfaces/gateways";
+import { DbConnection } from "../../interfaces/dbconnection";
+import ClientModelMapper from "../mapper/client.mapper";
 import ClientModel from "../model/client.model";
-import {PrismaClientKnownRequestError} from "@prisma/client/runtime/library";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 const prismaUniqueConstraintErrorCode = "P2002";
-
 
 export class ClientGateway implements IClientGateway {
   private repositoryData: DbConnection;
@@ -31,7 +30,9 @@ export class ClientGateway implements IClientGateway {
   }
 
   async getClients(): Promise<Client[]> {
-    const clients: ClientModel[] = await this.repositoryData.client.findMany({});
+    const clients: ClientModel[] = await this.repositoryData.client.findMany(
+      {}
+    );
 
     return clients.map(ClientModelMapper.map);
   }
@@ -51,7 +52,7 @@ export class ClientGateway implements IClientGateway {
       if (e instanceof PrismaClientKnownRequestError) {
         if (e.code == prismaUniqueConstraintErrorCode) {
           if (e.message.includes("(`cpf`)")) {
-            throw new CPFExistsError("Esste CPF já existe na nossa base!");
+            throw new CPFExistsError("Esse CPF já existe na nossa base!");
           }
 
           if (e.message.includes("(`email`)")) {

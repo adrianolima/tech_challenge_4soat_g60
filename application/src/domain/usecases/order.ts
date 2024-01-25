@@ -120,4 +120,10 @@ export class OrderUseCases {
   static async listAll(orderGateway: IOrderGateway): Promise<Array<Order>> {
     return orderGateway.getOrders();
   }
+
+  static async listAllOrderned(
+    orderGateway: IOrderGateway
+  ): Promise<Array<Order>> {
+    return orderGateway.getOrdersOrderned();
+  }
 }

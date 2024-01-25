@@ -1,8 +1,8 @@
-import {Product} from "../../domain/entities/product";
-import {ProductData} from "../repositories/products";
+import { Product } from "../../domain/entities/product";
+import ProductModel from "../model/product.model";
 
 export default class ProductMapper {
-  static map(d: ProductData): Product {
+  static map(d: ProductModel): Product {
     return Product.New(
       d.id,
       d.name,

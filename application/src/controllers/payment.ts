@@ -7,6 +7,22 @@ import { DbConnection } from "../interfaces/dbconnection";
 import { PaymentUseCases } from "../domain/usecases/payment";
 
 export class PaymentController {
+  static async getAllPayments(dbConnection: DbConnection) {
+    const paymentGateway = new PaymentGateway(dbConnection);
+    const payments = await PaymentUseCases.getAllPayments(paymentGateway);
+
+    const adapted = PaymentAdapter.adaptPayments(payments);
+    return adapted;
+  }
+
+  static async getPayment(paymentId: number, dbConnection: DbConnection) {
+    const paymentGateway = new PaymentGateway(dbConnection);
+    const payment = await PaymentUseCases.getPayment(paymentId, paymentGateway);
+
+    const adapted = PaymentAdapter.adaptPayment(payment);
+    return adapted;
+  }
+
   static async createPayment(orderId: number, dbConnection: DbConnection) {
     const orderGateway = new OrderGateway(dbConnection);
     const paymentGatewayGateway = new PaymentGatewayGateway(dbConnection);

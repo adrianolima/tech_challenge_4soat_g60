@@ -16,6 +16,7 @@ export interface IClientGateway {
 }
 
 export interface IOrderGateway {
+  getOrdersOrderned(): Promise<Array<Order>>;
   getOrders(): Promise<Array<Order>>;
   save(order: Order): Promise<Order>;
   update(order: Order): Promise<Order>;
@@ -28,6 +29,8 @@ export interface IPaymentGatewayService {
 }
 
 export interface IPaymentGateway {
+  getAll(): Promise<Array<Payment>>;
+  get(id: number): Promise<Payment>;
   save(payment: Payment): Promise<Payment>;
   getByIntegrationID(integrationID: string): Promise<Payment>;
   updateStatus(id: number, paymentStatus: PaymentStatus): Promise<Payment>;

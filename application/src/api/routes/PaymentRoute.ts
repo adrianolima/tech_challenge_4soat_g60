@@ -16,6 +16,33 @@ export default class PaymentRoute implements IAppRoute {
   }
 
   setup(app: express.Application): void {
+    app.route(this.ROUTE_BASE_PATH).get(async (req, res) => {
+      try {
+        const payment = await PaymentController.getAllPayments(
+          this.dbConnection
+        );
+
+        res.status(200).send(payment);
+      } catch (e) {
+        handleAPIError(res, e);
+      }
+    });
+
+    app.route(this.ROUTE_BASE_PATH + "/:payment_id").get(async (req, res) => {
+      const payment_id = Number(req.params.payment_id);
+
+      try {
+        const payment = await PaymentController.getPayment(
+          payment_id,
+          this.dbConnection
+        );
+
+        res.status(200).send(payment);
+      } catch (e) {
+        handleAPIError(res, e);
+      }
+    });
+
     app.route(this.ROUTE_BASE_PATH).post(async (req, res) => {
       const { order_id } = req.body;
 

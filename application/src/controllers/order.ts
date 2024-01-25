@@ -2,8 +2,16 @@ import { OrderAdapter } from "./presenter/order";
 import { OrderGateway } from "../gateways/repositories/orders";
 import { ProductGateway } from "../gateways/repositories/products";
 import { OrderUseCases } from "../domain/usecases/order";
+import { ClientGateway } from "../gateways/repositories/clients";
 
 export class OrderController {
+  static async getAllOrdersOrderned(dbConnection) {
+    const orderGateway = new OrderGateway(dbConnection);
+    const allOrders = await OrderUseCases.listAllOrderned(orderGateway);
+
+    return allOrders;
+  }
+
   static async getAllOrders(dbConnection) {
     const orderGateway = new OrderGateway(dbConnection);
     const allOrders = await OrderUseCases.listAll(orderGateway);
@@ -22,9 +30,11 @@ export class OrderController {
 
   static async linkClientToOrder(orderId, clientId, dbConnection) {
     const orderGateway = new OrderGateway(dbConnection);
+    const clientGateway = new ClientGateway(dbConnection);
     const order = await OrderUseCases.linkToClient(
       orderId,
       orderGateway,
+      clientGateway,
       clientId
     );
 

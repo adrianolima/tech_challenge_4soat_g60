@@ -9,7 +9,6 @@ import ProductModel from "../model/product.model";
 
 const prismaErrorRecordNotFound = "P2025";
 
-
 export class ProductGateway implements IProductGateway {
   private repositoryData: DbConnection;
 
@@ -18,31 +17,37 @@ export class ProductGateway implements IProductGateway {
   }
 
   async getProductsByCategory(category: Category): Promise<Product[]> {
-    const products: ProductModel[] = await this.repositoryData.product.findMany({
-      where: {
-        category: category.getCategory(),
-      },
-    });
+    const products: ProductModel[] = await this.repositoryData.product.findMany(
+      {
+        where: {
+          category: category.getCategory(),
+        },
+      }
+    );
     return products.map(ProductMapper.map);
   }
 
   async getProductByIDs(ids: number[]): Promise<Product[]> {
-    const products: ProductModel[] = await this.repositoryData.product.findMany({
-      where: {
-        id: {
-          in: ids,
+    const products: ProductModel[] = await this.repositoryData.product.findMany(
+      {
+        where: {
+          id: {
+            in: ids,
+          },
         },
-      },
-    });
+      }
+    );
     return products.map(ProductMapper.map);
   }
 
   async getProducts(): Promise<Product[]> {
-    const products: ProductModel[] = await this.repositoryData.product.findMany({
-      where: {
-        active: true,
-      },
-    });
+    const products: ProductModel[] = await this.repositoryData.product.findMany(
+      {
+        where: {
+          active: true,
+        },
+      }
+    );
     return products.map(ProductMapper.map);
   }
 

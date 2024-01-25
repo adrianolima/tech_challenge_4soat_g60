@@ -27,6 +27,18 @@ export default class OrderRoute implements IAppRoute {
       }
     });
 
+    app.route(this.ROUTE_BASE_PATH + "/orderned").get(async (req, res) => {
+      try {
+        const orders = await OrderController.getAllOrdersOrderned(
+          this.dbConnection
+        );
+
+        res.status(200).send(orders);
+      } catch (e) {
+        handleAPIError(res, e);
+      }
+    });
+
     app.route(`${this.ROUTE_BASE_PATH}/:id`).get(async (req, res) => {
       try {
         const orderId = Number(req.params.id);

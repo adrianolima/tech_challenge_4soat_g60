@@ -8,6 +8,23 @@ import {
 import { OrderUseCases } from "./order";
 
 export class PaymentUseCases {
+  static async getAllPayments(
+    paymentGateway: IPaymentGateway
+  ): Promise<Array<Payment>> {
+    const payments = await paymentGateway.getAll();
+
+    return payments;
+  }
+
+  static async getPayment(
+    id: number,
+    paymentGateway: IPaymentGateway
+  ): Promise<Payment> {
+    const payment = await paymentGateway.get(id);
+
+    return payment;
+  }
+
   static async save(
     orderId: number,
     orderGateway: IOrderGateway,
