@@ -77,7 +77,7 @@ export default class StartUp {
     this.app.listen(port, () => {
       console.log(`App está executando na porta ${port}`);
       console.log(
-        `Para acessar o swagger acesse: http://localhost:${port}/api/docs`
+        `Para acessar o swagger (incompleto, a collection do postman está 100%) acesse: http://localhost:${port}/api/docs`
       );
     });
   }
