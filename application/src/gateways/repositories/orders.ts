@@ -1,9 +1,12 @@
-import { Order } from "../../domain/entities/order";
-import { OrderStatus } from "../../domain/value_object/orderStatus";
-import { IOrderGateway } from "../../interfaces/gateways";
-import { DbConnection } from "../../interfaces/dbconnection";
+import {Order} from "../../domain/entities/order";
+import {OrderStatus} from "../../domain/value_object/orderStatus";
+import {IOrderGateway} from "../../interfaces/gateways";
+import {DbConnection} from "../../interfaces/dbconnection";
 import OrderModelMapper from "../mapper/order.mapper";
 import OrderModel from "../model/order.model";
+import {Product} from "../../domain/entities/product";
+import ProductModel from "../model/product.model";
+import ProductMapper from "../mapper/product.mapper";
 
 export class OrderGateway implements IOrderGateway {
   private repositoryData: DbConnection;
@@ -14,12 +17,12 @@ export class OrderGateway implements IOrderGateway {
 
   async getOrderByStatus(status: OrderStatus): Promise<Array<Order>> {
     const dados: OrderModel[] = await this.repositoryData.order.findMany({
-      where: { status: status.getStatus() },
+      where: {status: status.getStatus()},
       include: {
         payment: true,
         client: true,
         items: {
-          include: { product: true },
+          include: {product: true},
         },
       },
     });
@@ -32,18 +35,32 @@ export class OrderGateway implements IOrderGateway {
         payment: true,
         client: true,
         items: {
-          include: { product: true },
+          include: {product: true},
         },
       },
     });
     return dados.map(OrderModelMapper.map);
   }
 
-  async getOrdersOrderned(): Promise<Array<Order>> {
-    const dados: any = await this.repositoryData.$queryRaw`
-      SELECT *
+  /*
+  include: {
+          payment: true,
+          client: true,
+          items: {
+            include: { product: true },
+          },
+        }
+   */
+  async getOrdersOrdered(): Promise<Array<Order>> {
+    const orderedIds: { id: number, order_status: number }[] = await this.repositoryData.$queryRaw`
+      SELECT id, CASE
+          WHEN status = 'Pronto' THEN 1
+          WHEN status = 'Em preparação' THEN 2
+          WHEN status = 'Aguardando Preparo' THEN 3
+          ELSE 4
+        END as order_status
       FROM orders
-      WHERE status IN ('Aguardando Preparo', 'Em preparação', 'Pronto', 'Criado', 'Aguardando Pagamento')
+      WHERE status IN ('Aguardando Preparo', 'Em preparação', 'Pronto')
       ORDER BY
         CASE
           WHEN status = 'Pronto' THEN 1
@@ -51,10 +68,30 @@ export class OrderGateway implements IOrderGateway {
           WHEN status = 'Aguardando Preparo' THEN 3
           ELSE 4
         END,
-        created_at ASC; 
-      `;
+        created_at ASC;`
 
-    return dados;
+
+    const orders: OrderModel[] = await this.repositoryData.order.findMany(
+      {
+        where: {
+          id: {
+            in: orderedIds.map((i) => i.id),
+          },
+        },
+        include: {
+          payment: true,
+          client: true,
+          items: {
+            include: {product: true},
+          },
+        }
+      }
+    );
+    
+    const idStatusOrder: Record<number, number> = orderedIds
+      .reduce((acc, curr) => ({...acc, [curr.id]: curr.order_status}), {} as Record<number, number>)
+
+    return orders.map(OrderModelMapper.map).sort((a, b) => idStatusOrder[a.id] - idStatusOrder[b.id]);
   }
 
   async save(o: Order): Promise<Order> {
@@ -98,7 +135,7 @@ export class OrderGateway implements IOrderGateway {
         payment: true,
         client: true,
         items: {
-          include: { product: true },
+          include: {product: true},
         },
       },
     });
@@ -108,12 +145,12 @@ export class OrderGateway implements IOrderGateway {
 
   async getOrderByID(orderID: number): Promise<Order | null> {
     const order = await this.repositoryData.order.findFirst({
-      where: { id: orderID },
+      where: {id: orderID},
       include: {
         payment: true,
         client: true,
         items: {
-          include: { product: true },
+          include: {product: true},
         },
       },
     });

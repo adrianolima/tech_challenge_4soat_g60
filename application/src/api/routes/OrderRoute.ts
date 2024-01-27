@@ -1,11 +1,11 @@
 import * as express from "express";
 
-import IAppRoute from "./IAppRoute";
+import IAppRoute from "../../interfaces/IAppRoute";
 import { handleAPIError } from "../error/APIErrorHandler";
-import { OrderItemRequest } from "../dto/order";
 import { OrderStatus } from "../../domain/value_object/orderStatus";
 import { DbConnection } from "../../interfaces/dbconnection";
-import { OrderController } from "../../HttpController/order";
+import {OrderItemInput} from "../../domain/value_object/orderItemInput";
+import {OrderController} from "../../controllers/order.controller";
 
 export default class OrderRoute implements IAppRoute {
   private dbConnection: DbConnection;
@@ -27,9 +27,9 @@ export default class OrderRoute implements IAppRoute {
       }
     });
 
-    app.route(this.ROUTE_BASE_PATH + "/orderned").get(async (req, res) => {
+    app.route(this.ROUTE_BASE_PATH + "/ordered").get(async (req, res) => {
       try {
-        const orders = await OrderController.getAllOrdersOrderned(
+        const orders = await OrderController.getAllOrdersOrdered(
           this.dbConnection
         );
 
@@ -94,7 +94,7 @@ export default class OrderRoute implements IAppRoute {
 
     app.route(this.ROUTE_BASE_PATH).post(async (req, res) => {
       try {
-        const items: Array<OrderItemRequest> = req.body;
+        const items: Array<OrderItemInput> = req.body;
         const order = await OrderController.createOrder(
           items,
           this.dbConnection
@@ -107,4 +107,3 @@ export default class OrderRoute implements IAppRoute {
     });
   }
 }
-

@@ -3,7 +3,7 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as cors from "cors";
 import * as compression from "compression";
-import IAppRoute from "./routes/IAppRoute";
+import IAppRoute from "../interfaces/IAppRoute";
 import OrderRoute from "./routes/OrderRoute";
 import ClientRoute from "./routes/ClientRoute";
 import ProductRoute from "./routes/ProductRoute";

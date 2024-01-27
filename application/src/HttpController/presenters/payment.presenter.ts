@@ -1,40 +1,13 @@
-import { Payment } from "../../domain/entities/payment";
+import {Payment} from "../../domain/entities/payment";
+import {PaymentResponse} from "../model/payment.response.model";
 
-export type PaymentResponse = {
-  id: number;
-  order_id: number;
-  integration_id: string;
-  qr_code: string;
-  total: number;
-  status: string;
-  paid_at?: Date;
-  created_at?: Date;
-  updated_at?: Date;
-};
 
-export const PaymentPresenter = {
-  adaptPayments: function (data: Payment[]): PaymentResponse[] {
-    if (data === null) return null;
+export class PaymentPresenter {
+ static mapList(data: Payment[]): PaymentResponse[] {
+    return data.map(PaymentPresenter.map);
+  }
 
-    let allData = data.map((payment) => {
-      return {
-        id: payment.id,
-        order_id: payment.orderId,
-        integration_id: payment.integrationId,
-        qr_code: payment.qrCode,
-        total: payment.total,
-        status: payment.status.value(),
-        paid_at: payment.paidAt,
-        created_at: payment.createdAt,
-        updated_at: payment.updatedAt,
-      };
-    });
-
-    return allData;
-  },
-
-  adaptPayment: function (data: Payment): PaymentResponse {
-    if (data === null) return null;
+  static map(data: Payment): PaymentResponse {
 
     return {
       id: data.id,
@@ -47,6 +20,5 @@ export const PaymentPresenter = {
       created_at: data.createdAt,
       updated_at: data.updatedAt,
     };
-  },
-};
-
+  }
+}

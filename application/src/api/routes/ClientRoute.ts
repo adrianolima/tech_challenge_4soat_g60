@@ -1,11 +1,11 @@
 import * as express from "express";
 
-import IAppRoute from "./IAppRoute";
+import IAppRoute from "../../interfaces/IAppRoute";
 import { handleAPIError } from "../error/APIErrorHandler";
 import { DbConnection } from "../../interfaces/dbconnection";
 import { Client } from "../../domain/entities/client";
 import { CPF } from "../../domain/value_object/cpf";
-import { ClientController } from "../../HttpController/client";
+import {ClientController} from "../../controllers/client.controller";
 
 export default class ClientRoute implements IAppRoute {
   private dbConnection: DbConnection;
@@ -19,9 +19,7 @@ export default class ClientRoute implements IAppRoute {
   setup(app: express.Application): void {
     app.route(this.ROUTE_BASE_PATH).get(async (req, res) => {
       try {
-        const clientes = await ClientController.getAllClients(
-          this.dbConnection
-        );
+        const clientes = await ClientController.getAllClients(this.dbConnection);
 
         res.status(200).send(clientes);
       } catch (e) {
@@ -33,10 +31,7 @@ export default class ClientRoute implements IAppRoute {
       try {
         const cpf = new CPF(req.params.cpf);
 
-        const cliente = await ClientController.getClientByCpf(
-          cpf,
-          this.dbConnection
-        );
+        const cliente = await ClientController.getClientByCpf(cpf, this.dbConnection);
 
         res.status(200).send(cliente);
       } catch (e) {
@@ -50,10 +45,7 @@ export default class ClientRoute implements IAppRoute {
 
         const client = new Client(name, email, cpf);
 
-        const savedClient = await ClientController.createClient(
-          client,
-          this.dbConnection
-        );
+        const savedClient = await ClientController.createClient(client, this.dbConnection);
 
         res.status(201).send(savedClient);
       } catch (e) {
@@ -62,4 +54,3 @@ export default class ClientRoute implements IAppRoute {
     });
   }
 }
-

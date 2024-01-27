@@ -16,7 +16,7 @@ export interface IClientGateway {
 }
 
 export interface IOrderGateway {
-  getOrdersOrderned(): Promise<Array<Order>>;
+  getOrdersOrdered(): Promise<Array<Order>>;
   getOrders(): Promise<Array<Order>>;
   save(order: Order): Promise<Order>;
   update(order: Order): Promise<Order>;

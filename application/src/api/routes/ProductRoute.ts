@@ -1,11 +1,11 @@
 import * as express from "express";
 
-import IAppRoute from "./IAppRoute";
+import IAppRoute from "../../interfaces/IAppRoute";
 import { Product } from "../../domain/entities/product";
 import { Category } from "../../domain/value_object/category";
 import { handleAPIError } from "../error/APIErrorHandler";
 import { DbConnection } from "../../interfaces/dbconnection";
-import { ProductController } from "../../HttpController/product";
+import {ProductController} from "../../controllers/product.controller";
 
 export default class ProductRoute implements IAppRoute {
   private dbConnection: DbConnection;
@@ -99,4 +99,3 @@ export default class ProductRoute implements IAppRoute {
     });
   }
 }
-

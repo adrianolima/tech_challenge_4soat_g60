@@ -4,13 +4,8 @@ import { DbConnection } from "../../interfaces/dbconnection";
 import { IPaymentGatewayService } from "../../interfaces/gateways";
 
 export class PaymentGatewayGateway implements IPaymentGatewayService {
-  private repositoryData: DbConnection;
-
-  constructor(connection: DbConnection) {
-    this.repositoryData = connection;
-  }
-
   async create(): Promise<PaymentGatewayResponse> {
+    // Fake payment generation
     return {
       identifier: randomUUID(),
       QRCode:

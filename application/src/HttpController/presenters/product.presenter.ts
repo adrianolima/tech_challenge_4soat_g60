@@ -1,37 +1,13 @@
-import { Product } from "../../domain/entities/product";
+import {Product} from "../../domain/entities/product";
+import {ProductResponse} from "../model/product.response.model";
 
-export type ProductResponse = {
-  id: number;
-  name: string;
-  description: string;
-  category: string;
-  price: number;
-  active: boolean;
-  created_at?: Date;
-  updated_at?: Date;
-};
 
-export const ProductPresenter = {
-  adaptProducts: function (data: Product[]): ProductResponse[] {
-    if (data === null) return null;
+export class ProductPresenter {
+  static mapList(data: Product[]): ProductResponse[] {
+    return data.map(ProductPresenter.map);
+  }
 
-    let allData = data.map((item) => {
-      return {
-        id: item.getId(),
-        name: item.getName(),
-        description: item.getDescription(),
-        category: item.getCategory(),
-        price: item.getValueProduct(),
-        active: item.getActive(),
-        created_at: item.getCreatedAt(),
-        updated_at: item.getUpdatedAt(),
-      };
-    });
-
-    return allData;
-  },
-
-  adaptProduct: function (data: Product): ProductResponse {
+  static map(data: Product): ProductResponse {
     if (data === null) return null;
 
     return {
@@ -44,6 +20,5 @@ export const ProductPresenter = {
       created_at: data.getCreatedAt(),
       updated_at: data.getUpdatedAt(),
     };
-  },
-};
-
+  }
+}

@@ -1,28 +1,20 @@
-import { Payment } from "../entities/payment";
-import { PaymentStatus } from "../value_object/paymentStatus";
-import {
-  IOrderGateway,
-  IPaymentGateway,
-  IPaymentGatewayService,
-} from "../../interfaces/gateways";
-import { OrderUseCases } from "./order";
+import {Payment} from "../entities/payment";
+import {PaymentStatus} from "../value_object/paymentStatus";
+import {IOrderGateway, IPaymentGateway, IPaymentGatewayService,} from "../../interfaces/gateways";
+import {OrderUseCases} from "./order";
 
 export class PaymentUseCases {
   static async getAllPayments(
     paymentGateway: IPaymentGateway
   ): Promise<Array<Payment>> {
-    const payments = await paymentGateway.getAll();
-
-    return payments;
+    return await paymentGateway.getAll();
   }
 
   static async getPayment(
     id: number,
     paymentGateway: IPaymentGateway
   ): Promise<Payment> {
-    const payment = await paymentGateway.get(id);
-
-    return payment;
+    return await paymentGateway.get(id);
   }
 
   static async save(

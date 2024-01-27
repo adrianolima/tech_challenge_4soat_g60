@@ -1,9 +1,9 @@
 import * as express from "express";
 
-import IAppRoute from "./IAppRoute";
+import IAppRoute from "../../interfaces/IAppRoute";
 import { DbConnection } from "../../interfaces/dbconnection";
-import { OrderQueueController } from "../../HttpController/queue";
 import { handleAPIError } from "../error/APIErrorHandler";
+import {OrderQueueController} from "../../controllers/queue.controller";
 
 export default class OrderQueueRoute implements IAppRoute {
   private dbConnection: DbConnection;
@@ -52,4 +52,3 @@ export default class OrderQueueRoute implements IAppRoute {
     });
   }
 }
-

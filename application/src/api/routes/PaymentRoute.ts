@@ -1,10 +1,10 @@
 import * as express from "express";
 
-import IAppRoute from "./IAppRoute";
+import IAppRoute from "../../interfaces/IAppRoute";
 import { PaymentStatus } from "../../domain/value_object/paymentStatus";
 import { handleAPIError } from "../error/APIErrorHandler";
 import { DbConnection } from "../../interfaces/dbconnection";
-import { PaymentController } from "../../HttpController/payment";
+import {PaymentController} from "../../controllers/payment.controller";
 
 export default class PaymentRoute implements IAppRoute {
   private dbConnection: DbConnection;
@@ -91,4 +91,3 @@ export default class PaymentRoute implements IAppRoute {
     });
   }
 }
-

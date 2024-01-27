@@ -1,21 +1,17 @@
-import { Order } from "../entities/order";
+import {Order} from "../entities/order";
 import RecordNotFoundError from "../error/RecordNotFoundError";
-import { Client } from "../entities/client";
-import { OrderStatus } from "../value_object/orderStatus";
-import { OrderItem } from "../entities/orderItem";
-import { Payment } from "../entities/payment";
-import { PaymentStatus } from "../value_object/paymentStatus";
-import { OrderItemRequest } from "../../api/dto/order";
+import {Client} from "../entities/client";
+import {OrderStatus} from "../value_object/orderStatus";
+import {OrderItem} from "../entities/orderItem";
+import {Payment} from "../entities/payment";
+import {PaymentStatus} from "../value_object/paymentStatus";
 import ProductInactiveError from "../error/ProductInactiveError";
-import {
-  IClientGateway,
-  IOrderGateway,
-  IProductGateway,
-} from "../../interfaces/gateways";
+import {IClientGateway, IOrderGateway, IProductGateway,} from "../../interfaces/gateways";
+import {OrderItemInput} from "../value_object/orderItemInput";
 
 export class OrderUseCases {
   static async save(
-    requestItems: Array<OrderItemRequest>,
+    requestItems: Array<OrderItemInput>,
     orderGateway: IOrderGateway,
     productGateway: IProductGateway
   ): Promise<Order> {
@@ -89,7 +85,6 @@ export class OrderUseCases {
     status: OrderStatus,
     orderGateway: IOrderGateway
   ): Promise<Order> {
-    // TODO: add some validations depending on actual status
     const order: Order = await orderGateway.getOrderByID(orderID);
 
     order.setStatus(status);
@@ -121,9 +116,7 @@ export class OrderUseCases {
     return orderGateway.getOrders();
   }
 
-  static async listAllOrderned(
-    orderGateway: IOrderGateway
-  ): Promise<Array<Order>> {
-    return orderGateway.getOrdersOrderned();
+  static async listAllOrdered(orderGateway: IOrderGateway): Promise<Array<Order>> {
+    return orderGateway.getOrdersOrdered();
   }
 }

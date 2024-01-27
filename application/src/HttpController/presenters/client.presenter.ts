@@ -1,35 +1,13 @@
-import { Client } from "../../domain/entities/client";
+import {Client} from "../../domain/entities/client";
+import {ClientResponse} from "../model/client.response.model";
 
-export type ClientResponse = {
-  id: number;
-  name: string;
-  email: string;
-  cpf: string;
-  created_at: Date;
-  updated_at: Date;
-};
 
-export const ClientPresenter = {
-  adaptClients: function (data: Client[]): ClientResponse[] {
-    if (data === null) return null;
+export class ClientPresenter {
+  static mapList(data: Client[]): ClientResponse[] {
+    return data.map(ClientPresenter.map);
+  }
 
-    let allData = data.map((item) => {
-      return {
-        id: item.getId(),
-        name: item.getName(),
-        email: item.getEmail(),
-        cpf: item.getCPF(),
-        created_at: item.getCreatedAt(),
-        updated_at: item.getUpdatedAt(),
-      };
-    });
-
-    return allData;
-  },
-
-  adaptClient: function (data: Client): ClientResponse {
-    if (data === null) return null;
-
+  static map(data: Client): ClientResponse {
     return {
       id: data.getId(),
       name: data.getName(),
@@ -38,6 +16,5 @@ export const ClientPresenter = {
       created_at: data.getCreatedAt(),
       updated_at: data.getUpdatedAt(),
     };
-  },
-};
-
+  }
+}
