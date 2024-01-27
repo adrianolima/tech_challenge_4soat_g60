@@ -1,4 +1,5 @@
-import {ProductResponse} from "../presenter/product";
+import {ProductResponse} from "./product.response.model";
+
 
 export type OrderItemResponse = {
   id: number;

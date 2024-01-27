@@ -41,16 +41,7 @@ export class OrderGateway implements IOrderGateway {
     });
     return dados.map(OrderModelMapper.map);
   }
-
-  /*
-  include: {
-          payment: true,
-          client: true,
-          items: {
-            include: { product: true },
-          },
-        }
-   */
+  
   async getOrdersOrdered(): Promise<Array<Order>> {
     const orderedIds: { id: number, order_status: number }[] = await this.repositoryData.$queryRaw`
       SELECT id, CASE

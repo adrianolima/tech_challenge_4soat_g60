@@ -19,7 +19,7 @@ dentro da pasta /k8s rode no terminal:
 Acompanhar o status da criação dos PODS
 
 ```bash
-kubectl get pods
+kubectl get pods --namespace=totem
 ```
 
 Após todos os pods estarem com o status "Running" pegar qualquer pod da api e executar o seguinte comando para gerar as tabelas da aplicação:

@@ -1,6 +1,6 @@
-import {ClientResponse} from "../presenter/client";
-import {PaymentResponse} from "../presenter/payment";
 import {OrderItemResponse} from "./order-item.response.model";
+import {ClientResponse} from "./client.response.model";
+import {PaymentResponse} from "./payment.response.model";
 
 export type OrderResponse = {
   client?: ClientResponse;

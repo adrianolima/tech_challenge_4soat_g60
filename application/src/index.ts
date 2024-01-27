@@ -1,7 +1,6 @@
-import StartUp from "../src/api/startUp";
 import prisma from "./external/prismaClient";
-import "jest";
+import StartUp from "./api/startUp";
+
 
 const prismaConnection = prisma;
 new StartUp(prismaConnection);
-

@@ -4,6 +4,7 @@ metadata:
   labels:
     run: totem-api
   name: totem-api
+  namespace: totem
 spec:
   type: NodePort
   ports:

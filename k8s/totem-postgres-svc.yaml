@@ -4,6 +4,7 @@ metadata:
   labels:
     run: totem-postgres
   name: totem-postgres
+  namespace: totem
 spec:
   type: NodePort
   ports:
