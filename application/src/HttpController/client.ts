@@ -1,4 +1,4 @@
-import { ClientAdapter } from "./presenter/client";
+import { ClientPresenter } from "./presenters/client.presenter";
 import { Client } from "../domain/entities/client";
 import { CPF } from "../domain/value_object/cpf";
 import { ClientGateway } from "../gateways/repositories/clients";
@@ -10,7 +10,7 @@ export class ClientController {
     const clientGateway = new ClientGateway(dbConnection);
     const allClients = await ClientUseCases.getClients(clientGateway);
 
-    const adapted = ClientAdapter.adaptClients(allClients);
+    const adapted = ClientPresenter.adaptClients(allClients);
     return adapted;
   }
 
@@ -18,7 +18,7 @@ export class ClientController {
     const clientGateway = new ClientGateway(dbConnection);
     const client = await ClientUseCases.getClient(cpf, clientGateway);
 
-    const adapted = ClientAdapter.adaptClient(client);
+    const adapted = ClientPresenter.adaptClient(client);
     return adapted;
   }
 
@@ -26,7 +26,7 @@ export class ClientController {
     const clientGateway = new ClientGateway(dbConnection);
     const client = await ClientUseCases.getClientByID(clientId, clientGateway);
 
-    const adapted = ClientAdapter.adaptClient(client);
+    const adapted = ClientPresenter.adaptClient(client);
     return adapted;
   }
 
@@ -34,7 +34,8 @@ export class ClientController {
     const clientGateway = new ClientGateway(dbConnection);
     const newClient = await ClientUseCases.save(client, clientGateway);
 
-    const adapted = ClientAdapter.adaptClient(newClient);
+    const adapted = ClientPresenter.adaptClient(newClient);
     return adapted;
   }
 }
+

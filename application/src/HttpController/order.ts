@@ -1,4 +1,4 @@
-import { OrderAdapter } from "./presenter/order";
+import { OrderPresenter } from "./presenters/order.presenter";
 import { OrderGateway } from "../gateways/repositories/orders";
 import { ProductGateway } from "../gateways/repositories/products";
 import { OrderUseCases } from "../domain/usecases/order";
@@ -16,7 +16,7 @@ export class OrderController {
     const orderGateway = new OrderGateway(dbConnection);
     const allOrders = await OrderUseCases.listAll(orderGateway);
 
-    const adapted = OrderAdapter.adaptOrders(allOrders);
+    const adapted = OrderPresenter.adaptOrders(allOrders);
     return adapted;
   }
 
@@ -24,7 +24,7 @@ export class OrderController {
     const orderGateway = new OrderGateway(dbConnection);
     const order = await OrderUseCases.getOrderByID(orderId, orderGateway);
 
-    const adapted = OrderAdapter.adaptOrder(order);
+    const adapted = OrderPresenter.adaptOrder(order);
     return adapted;
   }
 
@@ -38,7 +38,7 @@ export class OrderController {
       clientId
     );
 
-    const adapted = OrderAdapter.adaptOrder(order);
+    const adapted = OrderPresenter.adaptOrder(order);
     return adapted;
   }
 
@@ -52,7 +52,7 @@ export class OrderController {
       productGateway
     );
 
-    const adapted = OrderAdapter.adaptOrder(newOrder);
+    const adapted = OrderPresenter.adaptOrder(newOrder);
     return adapted;
   }
 
@@ -64,7 +64,8 @@ export class OrderController {
       orderGateway
     );
 
-    const adapted = OrderAdapter.adaptOrder(order);
+    const adapted = OrderPresenter.adaptOrder(order);
     return adapted;
   }
 }
+

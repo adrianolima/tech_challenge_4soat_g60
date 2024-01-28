@@ -1,4 +1,4 @@
-import { OrderAdapter } from "./presenter/order";
+import { OrderPresenter } from "./presenters/order.presenter";
 import { OrderGateway } from "../gateways/repositories/orders";
 import { DbConnection } from "../interfaces/dbconnection";
 import { OrderQueueUseCases } from "../domain/usecases/queue";
@@ -8,7 +8,7 @@ export class OrderQueueController {
     const orderQueueGateway = new OrderGateway(dbConnection);
     const orders = await OrderQueueUseCases.getPendingOrders(orderQueueGateway);
 
-    const adapted = OrderAdapter.adaptOrders(orders);
+    const adapted = OrderPresenter.adaptOrders(orders);
     return adapted;
   }
 
@@ -18,7 +18,7 @@ export class OrderQueueController {
       orderQueueGateway
     );
 
-    const adapted = OrderAdapter.adaptOrders(orders);
+    const adapted = OrderPresenter.adaptOrders(orders);
     return adapted;
   }
 
@@ -28,7 +28,8 @@ export class OrderQueueController {
       orderQueueGateway
     );
 
-    const adapted = OrderAdapter.adaptOrders(orders);
+    const adapted = OrderPresenter.adaptOrders(orders);
     return adapted;
   }
 }
+

@@ -2,7 +2,7 @@ import * as express from "express";
 
 import IAppRoute from "./IAppRoute";
 import { DbConnection } from "../../interfaces/dbconnection";
-import { OrderQueueController } from "../../controllers/queue";
+import { OrderQueueController } from "../../HttpController/queue";
 import { handleAPIError } from "../error/APIErrorHandler";
 
 export default class OrderQueueRoute implements IAppRoute {
@@ -52,3 +52,4 @@ export default class OrderQueueRoute implements IAppRoute {
     });
   }
 }
+

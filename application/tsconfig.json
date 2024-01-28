@@ -14,8 +14,9 @@
     ],
     "typeRoots": ["../node_modules/@types"]
   },
-  "include": ["**/*.ts", "*.ts"],
+  "include": ["**/*.ts", "*.ts", "babel.config.js"],
   "exclude": ["node_modules"],
   "buildOnSave": true,
   "compileOnSave": true
 }
+

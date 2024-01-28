@@ -5,7 +5,7 @@ import { handleAPIError } from "../error/APIErrorHandler";
 import { DbConnection } from "../../interfaces/dbconnection";
 import { Client } from "../../domain/entities/client";
 import { CPF } from "../../domain/value_object/cpf";
-import { ClientController } from "../../controllers/client";
+import { ClientController } from "../../HttpController/client";
 
 export default class ClientRoute implements IAppRoute {
   private dbConnection: DbConnection;
@@ -62,3 +62,4 @@ export default class ClientRoute implements IAppRoute {
     });
   }
 }
+

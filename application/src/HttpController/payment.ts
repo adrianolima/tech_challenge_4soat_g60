@@ -1,4 +1,4 @@
-import { PaymentAdapter } from "./presenter/payment";
+import { PaymentPresenter } from "./presenters/payment.presenter";
 import { PaymentStatus } from "../domain/value_object/paymentStatus";
 import { PaymentGatewayGateway } from "../gateways/services/gateway";
 import { OrderGateway } from "../gateways/repositories/orders";
@@ -11,7 +11,7 @@ export class PaymentController {
     const paymentGateway = new PaymentGateway(dbConnection);
     const payments = await PaymentUseCases.getAllPayments(paymentGateway);
 
-    const adapted = PaymentAdapter.adaptPayments(payments);
+    const adapted = PaymentPresenter.adaptPayments(payments);
     return adapted;
   }
 
@@ -19,7 +19,7 @@ export class PaymentController {
     const paymentGateway = new PaymentGateway(dbConnection);
     const payment = await PaymentUseCases.getPayment(paymentId, paymentGateway);
 
-    const adapted = PaymentAdapter.adaptPayment(payment);
+    const adapted = PaymentPresenter.adaptPayment(payment);
     return adapted;
   }
 
@@ -35,7 +35,7 @@ export class PaymentController {
       paymentGateway
     );
 
-    const adapted = PaymentAdapter.adaptPayment(payment);
+    const adapted = PaymentPresenter.adaptPayment(payment);
     return adapted;
   }
 
@@ -54,7 +54,7 @@ export class PaymentController {
       orderGateway
     );
 
-    const adapted = PaymentAdapter.adaptPayment(payment);
+    const adapted = PaymentPresenter.adaptPayment(payment);
     return adapted;
   }
 
@@ -73,7 +73,8 @@ export class PaymentController {
       orderGateway
     );
 
-    const adapted = PaymentAdapter.adaptPayment(payment);
+    const adapted = PaymentPresenter.adaptPayment(payment);
     return adapted;
   }
 }
+

@@ -12,7 +12,7 @@ export type PaymentResponse = {
   updated_at?: Date;
 };
 
-export const PaymentAdapter = {
+export const PaymentPresenter = {
   adaptPayments: function (data: Payment[]): PaymentResponse[] {
     if (data === null) return null;
 
@@ -49,3 +49,4 @@ export const PaymentAdapter = {
     };
   },
 };
+

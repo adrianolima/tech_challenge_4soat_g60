@@ -9,7 +9,7 @@ export type ClientResponse = {
   updated_at: Date;
 };
 
-export const ClientAdapter = {
+export const ClientPresenter = {
   adaptClients: function (data: Client[]): ClientResponse[] {
     if (data === null) return null;
 
@@ -40,3 +40,4 @@ export const ClientAdapter = {
     };
   },
 };
+

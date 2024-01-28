@@ -1,4 +1,4 @@
-import { ProductAdapter } from "./presenter/product";
+import { ProductPresenter } from "./presenters/product.presenter";
 import { Product } from "../domain/entities/product";
 import { Category } from "../domain/value_object/category";
 import { ProductGateway } from "../gateways/repositories/products";
@@ -10,7 +10,7 @@ export class ProductController {
     const productGateway = new ProductGateway(dbConnection);
     const allProducts = await ProductUseCases.list(productGateway);
 
-    const adapted = ProductAdapter.adaptProducts(allProducts);
+    const adapted = ProductPresenter.adaptProducts(allProducts);
     return adapted;
   }
 
@@ -24,7 +24,7 @@ export class ProductController {
       productGateway
     );
 
-    const adapted = ProductAdapter.adaptProducts(allProductsByCategory);
+    const adapted = ProductPresenter.adaptProducts(allProductsByCategory);
     return adapted;
   }
 
@@ -32,7 +32,7 @@ export class ProductController {
     const productGateway = new ProductGateway(dbConnection);
     const newProduct = await ProductUseCases.save(product, productGateway);
 
-    const adapted = ProductAdapter.adaptProduct(newProduct);
+    const adapted = ProductPresenter.adaptProduct(newProduct);
     return adapted;
   }
 
@@ -44,7 +44,7 @@ export class ProductController {
       productGateway
     );
 
-    const adapted = ProductAdapter.adaptProduct(updatedProduct);
+    const adapted = ProductPresenter.adaptProduct(updatedProduct);
     return adapted;
   }
 
@@ -58,3 +58,4 @@ export class ProductController {
     return deletedProduct;
   }
 }
+

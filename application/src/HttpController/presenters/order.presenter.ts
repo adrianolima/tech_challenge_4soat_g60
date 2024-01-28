@@ -1,8 +1,8 @@
 import { Order } from "../../domain/entities/order";
 import { OrderItem } from "../../domain/entities/orderItem";
-import { ProductAdapter, ProductResponse } from "./product";
-import { ClientAdapter, ClientResponse } from "./client";
-import { PaymentAdapter, PaymentResponse } from "./payment";
+import { ProductPresenter, ProductResponse } from "./product.presenter";
+import { ClientPresenter, ClientResponse } from "./client.presenter";
+import { PaymentPresenter, PaymentResponse } from "./payment.presenter";
 
 export type OrderItemRequest = {
   product_id: number;
@@ -28,15 +28,15 @@ type OrderItemResponse = {
   product: ProductResponse;
 };
 
-export const OrderAdapter = {
+export const OrderPresenter = {
   adaptOrders: function (data: Order[]): OrderResponse[] {
     if (data === null) return null;
 
     let allData = data.map((order) => {
       return {
-        client: order.client ? ClientAdapter.adaptClient(order.client) : null,
+        client: order.client ? ClientPresenter.adaptClient(order.client) : null,
         payment: order.payment
-          ? PaymentAdapter.adaptPayment(order.payment)
+          ? PaymentPresenter.adaptPayment(order.payment)
           : null,
         items: order.items.map(adapterOrderItem),
         id: order.id,
@@ -54,8 +54,10 @@ export const OrderAdapter = {
     if (data === null) return null;
 
     return {
-      client: data.client ? ClientAdapter.adaptClient(data.client) : null,
-      payment: data.payment ? PaymentAdapter.adaptPayment(data.payment) : null,
+      client: data.client ? ClientPresenter.adaptClient(data.client) : null,
+      payment: data.payment
+        ? PaymentPresenter.adaptPayment(data.payment)
+        : null,
       items: data.items.map(adapterOrderItem),
       id: data.id,
       status: data.status.getStatus(),
@@ -72,6 +74,7 @@ function adapterOrderItem(o: OrderItem): OrderItemResponse {
     quantity: o.quantity,
     price: o.value,
     total: o.total,
-    product: o.product ? ProductAdapter.adaptProduct(o.product) : null,
+    product: o.product ? ProductPresenter.adaptProduct(o.product) : null,
   };
 }
+

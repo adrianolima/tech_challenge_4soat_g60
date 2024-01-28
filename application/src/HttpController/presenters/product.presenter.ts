@@ -11,7 +11,7 @@ export type ProductResponse = {
   updated_at?: Date;
 };
 
-export const ProductAdapter = {
+export const ProductPresenter = {
   adaptProducts: function (data: Product[]): ProductResponse[] {
     if (data === null) return null;
 
@@ -46,3 +46,4 @@ export const ProductAdapter = {
     };
   },
 };
+
