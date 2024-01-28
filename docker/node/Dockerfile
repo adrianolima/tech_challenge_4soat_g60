@@ -27,12 +27,6 @@ RUN npm install --loglevel verbose
 RUN #./node_modules/.bin/tsc
 RUN tsc
 
-RUN ls
-
-RUN echo "cat /var/www/dist/index.js"
-RUN cat /var/www/dist/index.js
-
-
 ADD docker/bin /var/bin
 
 RUN chown -R 1000:1000 /var/www
