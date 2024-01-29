@@ -2,9 +2,9 @@ import { describe, expect, jest, it, test } from "@jest/globals";
 import { DbConnection } from "../interfaces/dbconnection";
 import { afterEach, beforeEach } from "node:test";
 import { ProductUseCases } from "../domain/usecases/product";
-import { ProductController } from "./product";
 import { ProductGateway } from "../gateways/repositories/products";
 import { Category } from "../domain/value_object/category";
+import {ProductController} from "./product.controller";
 
 jest.mock("../domain/usecases/product");
 jest.mock("../gateways/repositories/products");

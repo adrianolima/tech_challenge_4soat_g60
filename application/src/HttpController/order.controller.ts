@@ -2,10 +2,10 @@ import {OrderGateway} from "../gateways/repositories/orders";
 import {ProductGateway} from "../gateways/repositories/products";
 import {OrderUseCases} from "../domain/usecases/order";
 import {ClientGateway} from "../gateways/repositories/clients";
-import {OrderPresenter} from "./presenter/order.presenter";
 import {OrderItemInput} from "../domain/value_object/orderItemInput";
 import {DbConnection} from "../interfaces/dbconnection";
 import {OrderStatus} from "../domain/value_object/orderStatus";
+import {OrderPresenter} from "./presenters/order.presenter";
 
 export class OrderController {
   static async getAllOrdersOrdered(dbConnection: DbConnection) {

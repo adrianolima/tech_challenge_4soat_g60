@@ -5,7 +5,7 @@ import { handleAPIError } from "../error/APIErrorHandler";
 import { OrderStatus } from "../../domain/value_object/orderStatus";
 import { DbConnection } from "../../interfaces/dbconnection";
 import {OrderItemInput} from "../../domain/value_object/orderItemInput";
-import {OrderController} from "../../controllers/order.controller";
+import {OrderController} from "../../HttpController/order.controller";
 
 export default class OrderRoute implements IAppRoute {
   private dbConnection: DbConnection;

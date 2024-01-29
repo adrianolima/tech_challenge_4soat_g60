@@ -1,11 +1,11 @@
 import { describe, expect, jest, it, test } from "@jest/globals";
-import { PaymentController } from "./payment";
 import { PaymentUseCases } from "../domain/usecases/payment";
 import { afterEach, beforeEach } from "node:test";
 import { DbConnection } from "../interfaces/dbconnection";
 import { PaymentGateway } from "../gateways/repositories/payments";
 import { PaymentGatewayGateway } from "../gateways/services/gateway";
 import { OrderGateway } from "../gateways/repositories/orders";
+import {PaymentController} from "./payment.controller";
 
 jest.mock("../domain/usecases/payment");
 jest.mock("../gateways/repositories/payments");

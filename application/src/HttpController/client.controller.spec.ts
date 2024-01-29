@@ -1,11 +1,11 @@
 import { describe, expect, jest, it, test } from "@jest/globals";
-import { ClientController } from "./client";
 import { ClientUseCases } from "../domain/usecases/client";
 import { Client } from "../domain/entities/client";
 import { afterEach, beforeEach } from "node:test";
 import { DbConnection } from "../interfaces/dbconnection";
 import { CPF } from "../domain/value_object/cpf";
 import { ClientGateway } from "../gateways/repositories/clients";
+import {ClientController} from "./client.controller";
 
 jest.mock("../domain/usecases/client");
 jest.mock("../gateways/repositories/clients");

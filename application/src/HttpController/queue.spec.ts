@@ -3,7 +3,7 @@ import { OrderQueueUseCases } from "../domain/usecases/queue";
 import { afterEach, beforeEach } from "node:test";
 import { OrderGateway } from "../gateways/repositories/orders";
 import { DbConnection } from "../interfaces/dbconnection";
-import { OrderQueueController } from "./queue";
+import {OrderQueueController} from "./queue.controller";
 
 jest.mock("../domain/usecases/queue");
 
