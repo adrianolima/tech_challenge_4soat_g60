@@ -31,5 +31,7 @@ export class OrderQueueController {
     const adapted = OrderPresenter.adaptOrders(orders);
     return adapted;
   }
+
+  // Aguardando validações de fila.
 }
 

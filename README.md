@@ -91,3 +91,7 @@ kubectl exec -it POD_POSTGRES --  psql -U totem -d totem -f /tmp/seeder.sql
 ## Storytelling
 
 [Storytelling](https://docs.google.com/document/d/1UKt6QM1xacBQHZGV9gy3_L3Li5LpHbLUMzv4UTCF_Nc/edit)
+
+## Diagrama Arquitetura on-premises
+
+![Diagrama Arquitetura on-premises]()

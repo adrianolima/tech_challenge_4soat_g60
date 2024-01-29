@@ -175,4 +175,3 @@ describe("OrderController", () => {
   });
 });
 
-// console.log("Actual arguments:", mockGetOrder.mock);
