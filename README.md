@@ -94,4 +94,4 @@ kubectl exec -it POD_POSTGRES --  psql -U totem -d totem -f /tmp/seeder.sql
 
 ## Diagrama Arquitetura on-premises
 
-![Diagrama Arquitetura on-premises]()
+![Diagrama Arquitetura on-premises](https://github.com/adrianolima/tech_challenge_4soat_g60/blob/main/docs/on-premises/diagrama_onpremises.png)
