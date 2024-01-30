@@ -25,7 +25,7 @@ kubectl get pods --namespace=totem
 Após todos os pods estarem com o status "Running" pegar qualquer pod da api e executar o seguinte comando para gerar as tabelas da aplicação:
 
 ```bash
-  kubectl exec -it POD_API --  sh /var/bin/migration.sh
+  kubectl exec -it --namespace=totem POD_API --  sh /var/bin/migration.sh
 ```
 
 Após finalizar a criação das tabelas podemos fazer o carregamento inicial da base de dados.
@@ -35,19 +35,19 @@ Após finalizar a criação das tabelas podemos fazer o carregamento inicial da 
 Pegar o pod do postgres
 
 ```bash
-kubectl get pods
+kubectl get pods --namespace=totem
 ```
 
 Copiar arquivo de seed para o pod
 
 ```bash
-kubectl cp seeder.sql POD_POSTGRES:/tmp
+kubectl --namespace=totem cp seeder.sql POD_POSTGRES:/tmp
 ```
 
 Executar o seed
 
 ```bash
-kubectl exec -it POD_POSTGRES --  psql -U totem -d totem -f /tmp/seeder.sql
+kubectl exec -it --namespace=totem POD_POSTGRES --  psql -U totem -d totem -f /tmp/seeder.sql
 ```
 
 ## Funcionalidades
